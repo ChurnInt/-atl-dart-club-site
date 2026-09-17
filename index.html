@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATL Dart Club — Nerf As A Service | Decatur &amp; Atlanta</title>
+<meta name="description" content="Full-service mobile Nerf battle experiences for corporate team days, birthdays, and pop-ups across Decatur & Atlanta. We bring the gear, run the games — you bring the crowd.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --black-soft:#141210;
+    --cream:#f5eedc;
+    --cream-dim:#ece2c8;
+    --red:#db0709;
+    --yellow:#fdd02c;
+    --ink:#171310;
+    --paper-line: rgba(23,19,16,0.14);
+    --dark-line: rgba(245,238,220,0.14);
+    --dark-text-dim: rgba(245,238,220,0.66);
+    --ink-dim: rgba(23,19,16,0.66);
+    --radius-badge: 22px 46px 22px 46px / 46px 22px 46px 22px;
+    --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--black);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  h1,h2,h3{font-family:'Anton', sans-serif; text-transform:uppercase; letter-spacing:0.01em; margin:0; line-height:1.02;}
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    font-size:0.78rem;
+    color:var(--yellow);
+  }
+  .eyebrow.on-light{color:var(--red);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    font-size:0.92rem;
+    padding:15px 26px;
+    border-radius:999px;
+    border:3px solid var(--black);
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow: var(--shadow-hard);
+  }
+  .btn:active{transform:translate(3px,3px); box-shadow:0 0 0 rgba(0,0,0,0.9);}
+  .btn-primary{background:var(--red); color:var(--cream); border-color:var(--black); position:relative;}
+  .btn-primary:hover{transform:translate(-2px,-2px) rotate(-1deg); box-shadow:9px 9px 0 rgba(0,0,0,0.9);}
+  .btn-primary::after{
+    content:''; position:absolute; inset:-10px; border-radius:999px;
+    background:radial-gradient(circle, rgba(253,208,44,0.55) 0%, transparent 70%);
+    opacity:0; transition:opacity .25s ease; z-index:-1;
+  }
+  .btn-primary:hover::after{opacity:1;}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:var(--cream);}
+  .btn-ghost:hover{background:var(--cream); color:var(--black);}
+  .btn-dark{background:var(--black); color:var(--yellow); border-color:var(--black);}
+  .btn-dark:hover{transform:translate(-2px,-2px); box-shadow:9px 9px 0 rgba(0,0,0,0.35);}
+
+  :focus-visible{outline:3px solid var(--yellow); outline-offset:3px;}
+
+  /* ---------- MOTION / FUN LAYER ---------- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;}
+    .reveal.in-view{opacity:1; transform:translateY(0);}
+    .reveal-1{transition-delay:.05s;} .reveal-2{transition-delay:.12s;} .reveal-3{transition-delay:.19s;} .reveal-4{transition-delay:.26s;}
+  }
+  .tilt-a{transform:rotate(-1.6deg);} .tilt-b{transform:rotate(1.4deg);} .tilt-c{transform:rotate(-1deg);} .tilt-d{transform:rotate(1.1deg);}
+  .tilt-a,.tilt-b,.tilt-c,.tilt-d{transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;}
+  .tilt-a:hover,.tilt-b:hover,.tilt-c:hover,.tilt-d:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);}
+
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg));} 50%{transform:translateY(-14px) rotate(var(--r,0deg));}}
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+  @keyframes dash-flow{to{stroke-dashoffset:-200;}}
+  @keyframes pop-in{0%{transform:scale(0.6); opacity:0;} 60%{transform:scale(1.08); opacity:1;} 100%{transform:scale(1);}}
+  @keyframes wiggle-in{0%{transform:rotate(-10deg) scale(0.85); opacity:0;} 60%{transform:rotate(4deg) scale(1.04);} 100%{transform:rotate(-6deg) scale(1); opacity:1;}}
+  @keyframes marquee-scroll{to{transform:translateX(-50%);}}
+  @keyframes count-pulse{0%{transform:scale(1);} 30%{transform:scale(1.08);} 100%{transform:scale(1);}}
+
+  .float-deco{position:absolute; pointer-events:none; opacity:0.9;}
+  @media (prefers-reduced-motion: no-preference){ .float-deco{animation:bob 5.5s ease-in-out infinite;} }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(10,10,10,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--dark-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px;
+    max-width:1180px; margin:0 auto;
+  }
+  .nav-logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .nav-logo img{height:44px; width:auto;}
+  .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
+  .nav-links a{text-decoration:none; color:var(--dark-text-dim); transition:color .15s ease; margin-right:28px;}
+  .nav-links a:last-child{margin-right:0;}
+  .nav-links a:hover{color:var(--yellow);}
+  .nav-cta{display:flex; align-items:center;}
+  .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
+
+  @media (max-width:860px){
+    .nav-links{
+      position:fixed; top:70px; left:0; right:0; bottom:0;
+      background:var(--black); flex-direction:column; align-items:flex-start;
+      padding:28px 24px; gap:22px; font-size:1.1rem;
+      transform:translateX(100%); transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-toggle{display:block;}
+    .nav-cta .btn{padding:10px 16px; font-size:0.8rem;}
+  }
+
+  /* ---------- DART DIVIDER (signature element) ---------- */
+  .dart-divider{width:100%; overflow:hidden; line-height:0;}
+  .dart-divider svg{width:100%; height:56px; display:block;}
+  @media (prefers-reduced-motion: no-preference){
+    .dart-divider path{animation:dash-flow 6s linear infinite;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 84px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(219,7,9,0.18), transparent 45%),
+      radial-gradient(circle at 8% 82%, rgba(253,208,44,0.10), transparent 40%),
+      radial-gradient(rgba(245,238,220,0.05) 1.4px, transparent 1.4px) 0 0/22px 22px,
+      var(--black);
+  }
+  .hero-mark img{animation: wiggle-in .8s cubic-bezier(.34,1.56,.64,1) both;}
+  .hero-mark:hover img{transform:rotate(3deg) scale(1.03); transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+  .hero-rings{
+    position:absolute; right:-120px; top:-120px; width:520px; height:520px;
+    border-radius:50%; border:2px dashed rgba(253,208,44,0.18);
+    pointer-events:none;
+  }
+  .hero-rings::before{
+    content:''; position:absolute; inset:60px; border-radius:50%;
+    border:2px dashed rgba(219,7,9,0.20);
+  }
+  .hero-rings::after{
+    content:''; position:absolute; inset:150px; border-radius:50%;
+    border:2px dashed rgba(253,208,44,0.22);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:center; position:relative; z-index:2;}
+  .hero h1{font-size:clamp(2.6rem, 6vw, 4.6rem); color:var(--cream);}
+  .hero h1 .accent{color:var(--red); -webkit-text-stroke:1.5px var(--yellow); text-stroke:1.5px var(--yellow);}
+  .hero-sub{font-size:1.08rem; color:var(--dark-text-dim); max-width:46ch; margin:22px 0 34px;}
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:16px; margin-bottom:34px;}
+  .hero-meta{display:flex; gap:26px; flex-wrap:wrap; font-family:'Space Grotesk'; font-size:0.85rem; color:var(--dark-text-dim);}
+  .hero-meta span{margin-right:26px;}
+  .hero-meta span:last-child{margin-right:0;}
+  .hero-meta strong{color:var(--yellow);}
+  .hero-mark{
+    position:relative; display:flex; justify-content:center; align-items:center;
+  }
+  .hero-mark img{width:100%; max-width:420px; filter:drop-shadow(0 20px 40px rgba(219,7,9,0.25));}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-mark{order:-1; margin-bottom:8px;}
+    .hero-mark img{max-width:240px;}
+  }
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust{
+    background:var(--black-soft);
+    border-top:1px solid var(--dark-line);
+    border-bottom:1px solid var(--dark-line);
+    padding:18px 0;
+    display:flex; align-items:center; gap:22px;
+    overflow:hidden;
+  }
+  .trust-label{
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--black); background:var(--yellow); white-space:nowrap;
+    padding:8px 16px; border-radius:999px; margin-left:24px; flex-shrink:0; position:relative; z-index:2;
+  }
+  .marquee-track{
+    display:flex; flex-wrap:nowrap; width:max-content;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .marquee-track{animation:marquee-scroll 26s linear infinite;}
+  }
+  .marquee-group{display:flex; align-items:center; flex-shrink:0;}
+  .trust-orgs span{font-family:'Space Grotesk'; font-weight:600; font-size:0.92rem; color:var(--dark-text-dim); white-space:nowrap; padding:0 26px;}
+  .trust-orgs span::after{content:'·'; margin-left:26px; color:rgba(245,238,220,0.28);}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:88px 0;}
+  .section-dark{background:var(--black);}
+  .section-light{background:var(--cream); color:var(--ink);}
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(2rem, 4vw, 2.9rem); margin-top:10px;}
+  .section-light .section-head p{color:var(--ink-dim);}
+  .section-dark .section-head p{color:var(--dark-text-dim);}
+  .section-head p{margin-top:14px; font-size:1.02rem; max-width:56ch;}
+
+  /* ---------- ABOUT / NAAS ---------- */
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start;}
+  .foam{
+    background:var(--black); color:var(--cream);
+    border-radius:28px; padding:32px 28px;
+    box-shadow: var(--shadow-hard);
+  }
+  .foam-letters{display:flex; flex-direction:column; gap:10px; margin-top:18px;}
+  .foam-row{display:flex; align-items:baseline; gap:12px;}
+  .foam-row .letter{font-family:'Anton'; font-size:2.1rem; color:var(--yellow); width:38px; flex-shrink:0;}
+  .foam-row .word{font-family:'Space Grotesk'; font-weight:600; font-size:1rem; color:var(--dark-text-dim);}
+  .about-copy p{font-size:1.05rem; color:var(--ink-dim); margin:0 0 18px;}
+  .about-copy strong{color:var(--ink); font-weight:700;}
+  .about-tag{
+    display:inline-block; margin-top:8px;
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.85rem;
+    background:var(--red); color:var(--cream); padding:8px 16px; border-radius:999px;
+  }
+
+  @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} }
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px;}
+  .service-card{
+    background:var(--black-soft);
+    border:1px solid var(--dark-line);
+    border-radius:20px;
+    padding:30px 28px;
+    position:relative;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .service-card{position:relative;}
+  .service-card:hover{border-color:var(--yellow); z-index:5;}
+  .service-card .tag{
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.7rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--black); background:var(--yellow);
+    display:inline-block; padding:5px 12px; border-radius:999px; margin-bottom:16px;
+  }
+  .service-card.priority .tag{background:var(--red); color:var(--cream);}
+  .service-card h3{font-family:'Space Grotesk'; text-transform:none; font-size:1.32rem; font-weight:700; letter-spacing:0; margin-bottom:10px; color:var(--cream);}
+  .service-card p{color:var(--dark-text-dim); font-size:0.98rem; margin:0;}
+  .service-icon{width:38px; height:38px; margin-bottom:14px;}
+
+  @media (max-width:760px){ .services-grid{grid-template-columns:1fr;} }
+
+  /* ---------- VIDEO (See It In Action) ---------- */
+  .video-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .video-tile{
+    position:relative; border-radius:20px; overflow:hidden;
+    aspect-ratio:4/5; background:var(--black-soft);
+    border:1px solid var(--dark-line);
+    box-shadow: var(--shadow-hard);
+  }
+  .video-tile .battle-video{width:100%; height:100%; object-fit:cover; display:block;}
+  .video-sound-toggle{
+    position:absolute; bottom:14px; right:14px;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(10,10,10,0.65); border:1px solid rgba(245,238,220,0.3);
+    color:var(--cream); font-size:1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .video-sound-toggle:hover{background:var(--red); transform:scale(1.08);}
+
+  @media (max-width:860px){ .video-grid{grid-template-columns:1fr;} }
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .price-ticket{
+    background:var(--black);
+    color:var(--cream);
+    border-radius:22px;
+    padding:34px 28px;
+    position:relative;
+    box-shadow: var(--shadow-hard);
+    display:flex; flex-direction:column;
+  }
+  .price-ticket:hover{z-index:5;}
+  .price-ticket.featured{background:var(--red);}
+  .price-ticket .plan-name{font-family:'Space Grotesk'; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; font-size:0.82rem; color:var(--yellow);}
+  .price-ticket.featured .plan-name{color:var(--black);}
+  .price-ticket .price{font-family:'Anton'; font-size:2.6rem; margin:14px 0 4px;}
+  .price-ticket .price sup{font-family:'Space Grotesk'; font-size:1rem; font-weight:700; margin-right:2px;}
+  .price-ticket .price-note{font-family:'Space Grotesk'; font-size:0.85rem; color:var(--dark-text-dim); margin-bottom:22px;}
+  .price-ticket.featured .price-note{color:rgba(10,10,10,0.72);}
+  .price-ticket ul{list-style:none; margin:0 0 26px; padding:0; font-size:0.94rem; color:var(--dark-text-dim); display:flex; flex-direction:column; gap:9px;}
+  .price-ticket.featured ul{color:rgba(10,10,10,0.82);}
+  .price-ticket li{display:flex; gap:9px; align-items:flex-start;}
+  .price-ticket li::before{content:'✦'; color:var(--yellow); flex-shrink:0;}
+  .price-ticket.featured li::before{color:var(--black);}
+  .price-ticket .btn{margin-top:auto; align-self:flex-start;}
+  .pricing-footnote{margin-top:28px; font-size:0.92rem; color:var(--ink-dim); text-align:center;}
+
+  @media (max-width:900px){ .pricing-grid{grid-template-columns:1fr;} }
+
+  /* ---------- RECENT BATTLES (placeholder proof tiles) ---------- */
+  .battles-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  .battle-tile{
+    aspect-ratio:1/1;
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(253,208,44,0.10) 0 14px, rgba(253,208,44,0) 14px 28px),
+      var(--black-soft);
+    border:1px solid var(--dark-line);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:18px;
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1), border-color .25s ease;
+  }
+  .battle-tile:hover{transform:translateY(-6px) rotate(-1deg); border-color:var(--yellow);}
+  .battle-tile .ph-badge{
+    position:absolute; top:14px; left:14px;
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase;
+    background:rgba(245,238,220,0.12); color:var(--dark-text-dim);
+    padding:5px 10px; border-radius:999px; border:1px solid var(--dark-line);
+  }
+  .battle-tile .icon{
+    width:34px; height:34px; opacity:0.5; margin-bottom:auto; margin-top:34px;
+  }
+  .battle-tile h4{font-family:'Space Grotesk'; font-weight:700; font-size:0.98rem; color:var(--cream); margin:0 0 4px; text-transform:none;}
+  .battle-tile p{font-size:0.8rem; color:var(--dark-text-dim); margin:0;}
+
+  @media (max-width:900px){ .battles-grid{grid-template-columns:repeat(2,1fr);} }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .testi-card{
+    background:var(--black);
+    color:var(--cream);
+    padding:38px 34px;
+    border-radius: var(--radius-badge);
+    display:flex; flex-direction:column; gap:16px;
+    position:relative;
+  }
+  .testi-card:hover{z-index:5;}
+  .testi-card .quote-mark{font-family:'Anton'; font-size:2.4rem; color:var(--yellow); line-height:0.6;}
+  .testi-card p.quote{font-size:1rem; color:var(--dark-text-dim); margin:0;}
+  .testi-who{font-family:'Space Grotesk'; font-size:0.85rem;}
+  .testi-who strong{display:block; color:var(--cream); font-weight:700;}
+  .testi-who span{color:var(--dark-text-dim);}
+
+  @media (max-width:900px){ .testi-grid{grid-template-columns:1fr;} }
+
+  /* ---------- BOOKING FORM ---------- */
+  .book-grid{display:grid; grid-template-columns:0.85fr 1.15fr; gap:52px; align-items:flex-start;}
+  .book-copy h2{font-size:clamp(2rem,4vw,2.7rem);}
+  .book-copy p{color:var(--dark-text-dim); margin-top:16px; max-width:44ch;}
+  .book-points{list-style:none; padding:0; margin:28px 0 0; display:flex; flex-direction:column; gap:14px;}
+  .book-points li{display:flex; gap:12px; align-items:flex-start; font-family:'Space Grotesk'; font-size:0.92rem; color:var(--dark-text-dim);}
+  .book-points li::before{content:'→'; color:var(--red); font-weight:700;}
+
+  form.book-form{
+    background:var(--cream); color:var(--ink);
+    border-radius:22px; padding:34px;
+    display:grid; grid-template-columns:1fr 1fr; gap:18px;
+    box-shadow: var(--shadow-hard);
+  }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.full{grid-column:1 / -1;}
+  .field label{font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em;}
+  .field input, .field select, .field textarea{
+    font-family:'Work Sans'; font-size:0.98rem;
+    padding:12px 14px; border-radius:10px; border:2px solid rgba(23,19,16,0.18);
+    background:#fff; color:var(--ink);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--red);}
+  .field textarea{resize:vertical; min-height:90px;}
+  .book-form .btn{grid-column:1 / -1; justify-self:start; margin-top:6px;}
+  .form-note{grid-column:1/-1; font-size:0.82rem; color:var(--ink-dim); margin-top:-6px;}
+  .form-success{
+    display:none; grid-column:1/-1; background:var(--red); color:var(--cream);
+    padding:18px 20px; border-radius:14px; font-family:'Space Grotesk'; font-weight:600; font-size:0.95rem;
+  }
+  .form-success.show{display:block;}
+
+  @media (max-width:860px){
+    .book-grid{grid-template-columns:1fr;}
+    form.book-form{grid-template-columns:1fr; padding:26px;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--black-soft); border-top:1px solid var(--dark-line); padding:52px 0 28px;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; margin-bottom:36px;}
+  .footer-logo{display:flex; align-items:center; gap:12px;}
+  .footer-logo img{height:52px;}
+  .footer-cols{display:flex; gap:56px; flex-wrap:wrap;}
+  .footer-col h5{font-family:'Space Grotesk'; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow); margin:0 0 12px;}
+  .footer-col a, .footer-col span{display:block; font-size:0.92rem; color:var(--dark-text-dim); text-decoration:none; margin-bottom:8px;}
+  .footer-col a:hover{color:var(--cream);}
+  .footer-bottom{border-top:1px solid var(--dark-line); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem; color:rgba(245,238,220,0.45); font-family:'Space Grotesk';}
+
+  /* utility */
+  .center-cta{text-align:center; margin-top:44px;}
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">
+      <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
+      <span>ATL DART CLUB</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">Corporate</a>
+      <a href="#services">Birthdays</a>
+      <a href="#in-action">See It In Action</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#battles">Recent Battles</a>
+      <a href="events.html">Events</a>
+      <a href="#book">Request to Book</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#book" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Request to Book</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-rings" aria-hidden="true"></div>
+    <svg class="float-deco" style="left:6%; top:22%; width:34px; height:34px; animation-delay:.2s;" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.8" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+    <svg class="float-deco" style="left:14%; top:68%; width:26px; height:26px; animation-delay:1.4s;" viewBox="0 0 24 24" fill="none" stroke="#db0709" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+    <svg class="float-deco" style="left:48%; top:8%; width:20px; height:20px; animation-delay:.8s;" viewBox="0 0 24 24" fill="#fdd02c" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Atl Dart Club · Nerf As A Service™</p>
+        <h1>LET THE<br><span class="accent">FOAM</span><br>FLY!</h1>
+        <p class="hero-sub">Full-service mobile Nerf battle experiences for corporate team days, birthday parties, and city pop-ups across Decatur &amp; Atlanta. We bring the gear, set up anywhere, and run the whole event — you just bring the crowd.</p>
+        <div class="hero-ctas">
+          <a href="#book" class="btn btn-primary">Request to Book</a>
+          <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+        </div>
+        <div class="hero-meta">
+          <span><strong>Full-service</strong> — gear, setup &amp; hosts included</span>
+          <span><strong>Anywhere</strong> — parks, gyms, offices</span>
+          <span><strong>Decatur &amp; Atlanta</strong> service area</span>
+        </div>
+      </div>
+      <div class="hero-mark">
+        <img src="assets/logo-yellow.png" alt="ATL Dart Club badge">
+      </div>
+    </div>
+  </section>
+
+  <!-- DART DIVIDER -->
+  <div class="dart-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 Q300,-10 600,30 T1200,30" fill="none" stroke="#fdd02c" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.55"/>
+      <polygon points="1178,20 1200,30 1178,40 1184,30" fill="#db0709"/>
+    </svg>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div class="trust">
+    <span class="trust-label">Trusted by</span>
+    <div class="marquee-track">
+      <div class="marquee-group trust-orgs">
+        <span>Holy Innocents' Episcopal School</span>
+        <span>Boys &amp; Girls Clubs of Metro Atlanta</span>
+        <span>Adult Swim</span>
+        <span>Atlanta BeltLine Pop-Ups</span>
+      </div>
+      <div class="marquee-group trust-orgs" aria-hidden="true">
+        <span>Holy Innocents' Episcopal School</span>
+        <span>Boys &amp; Girls Clubs of Metro Atlanta</span>
+        <span>Adult Swim</span>
+        <span>Atlanta BeltLine Pop-Ups</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT / NAAS -->
+  <section class="section-light" id="about">
+    <div class="wrap about-grid">
+      <div class="foam reveal tilt-a">
+        <p class="eyebrow">Our mission</p>
+        <div class="foam-letters">
+          <div class="foam-row"><span class="letter">F</span><span class="word">Facilitating</span></div>
+          <div class="foam-row"><span class="letter">O</span><span class="word">Opportunities</span></div>
+          <div class="foam-row"><span class="letter">A</span><span class="word">for</span></div>
+          <div class="foam-row"><span class="letter">M</span><span class="word">Amazing Memories</span></div>
+        </div>
+      </div>
+      <div class="about-copy reveal reveal-1">
+        <p class="eyebrow on-light">About ATL Dart Club</p>
+        <h2 style="margin:10px 0 22px; font-size:clamp(1.8rem,3.4vw,2.4rem);">Nerf As A Service, for real.</h2>
+        <p>ATL Dart Club (ADC) is Atlanta's premier Nerf entertainment company — <strong>NAAS: Nerf As A Service.</strong> We deliver a fun, highly-engaging Nerf battle experience as a high-energy alternative to paintball or laser tag, minus the bruises and the price tag.</p>
+        <p>We don't have a single home venue — we bring the battlefield to <strong>you.</strong> Parks, gyms, office parking lots, church lawns, backyards: if there's room to run, we can turn it into a war zone for an afternoon.</p>
+        <p>Client experience, enjoyment, and safety are our top priorities, on every booking, every time.</p>
+        <span class="about-tag">F.O.A.M. — it's not just foam darts</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="dart-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,26 Q300,60 600,26 T1200,26" fill="none" stroke="#db0709" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.6"/>
+      <polygon points="22,16 0,26 22,36 16,26" fill="#fdd02c"/>
+    </svg>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section-dark" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">What we run</p>
+        <h2>Book by occasion.</h2>
+        <p>Every event is fully hosted — trained ADC crew handles setup, game modes, and refereeing from start to finish.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card priority reveal tilt-a">
+          <span class="tag">Corporate</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="#fdd02c"/></svg>
+          <h3>Organizational Team Building</h3>
+          <p>The ideal way to build team cohesion and create a positive jolt of energy among your staff — a one-of-a-kind Nerf battle training experience for offsites, retreats, and company days.</p>
+        </div>
+        <div class="service-card reveal reveal-1 tilt-b">
+          <span class="tag">Birthdays</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M4 21h16M6 21v-7a2 2 0 012-2h8a2 2 0 012 2v7M9 12V7M15 12V7M12 7V3"/></svg>
+          <h3>Birthday Nerf Battle Experience</h3>
+          <p>Want a birthday the guest of honor won't stop talking about? ADC delivers a premium Nerf battle experience your guests will be glad they came to.</p>
+        </div>
+        <div class="service-card reveal reveal-2 tilt-c">
+          <span class="tag">Pop-Ups</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          <h3>Public Nerf Battle Events</h3>
+          <p>ADC hosts themed pop-up Nerf battles around the city — from the BeltLine to Piedmont Park — to get Atlanta up and moving. All challengers welcome.</p>
+        </div>
+        <div class="service-card reveal reveal-3 tilt-d">
+          <span class="tag">Community</span>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <h3>Community Partnerships</h3>
+          <p>From festivals to fundraisers to back-to-school events, we bring our curated Nerf battle experience to any community gathering and take it to the next level.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="dart-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,26 Q300,60 600,26 T1200,26" fill="none" stroke="#db0709" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.6"/>
+      <polygon points="22,16 0,26 22,36 16,26" fill="#fdd02c"/>
+    </svg>
+  </div>
+
+  <!-- SEE IT IN ACTION (video) -->
+  <section class="section-dark" id="in-action">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">See it in action</p>
+        <h2>This is what "team building" looks like here.</h2>
+        <p>Real energy, real reactions — this is the kind of chaos your office is signing up for.</p>
+      </div>
+      <div class="video-grid">
+        <div class="video-tile reveal tilt-a">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-1-poster.jpg">
+            <source src="assets/video/office-battle-1.mp4" type="video/mp4">
+          </video>
+          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v1">🔇</button>
+        </div>
+        <div class="video-tile reveal reveal-1 tilt-b">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-2-poster.jpg">
+            <source src="assets/video/office-battle-2.mp4" type="video/mp4">
+          </video>
+          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v2">🔇</button>
+        </div>
+        <div class="video-tile reveal reveal-2 tilt-c">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-3-poster.jpg">
+            <source src="assets/video/office-battle-3.mp4" type="video/mp4">
+          </video>
+          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v3">🔇</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section-light" id="pricing">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow on-light">Pricing</p>
+        <h2>Starting rates.</h2>
+        <p>Every event is different — these are starting points. Final pricing depends on group size, location, and add-ons.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-ticket reveal tilt-a">
+          <span class="plan-name">Birthday Battle</span>
+          <div class="price"><sup>$</sup>300</div>
+          <div class="price-note">Starting at — 2-hour block</div>
+          <ul>
+            <li>Full gear &amp; setup included</li>
+            <li>Hosted by trained ADC crew</li>
+            <li>Custom game modes</li>
+            <li>You pick the park, yard, or venue</li>
+          </ul>
+          <a href="#book" class="btn btn-dark">Request this</a>
+        </div>
+        <div class="price-ticket featured reveal reveal-1">
+          <span class="plan-name">Large Group</span>
+          <div class="price"><sup>$</sup>600</div>
+          <div class="price-note">Starting at — bigger crews, more chaos</div>
+          <ul>
+            <li>Everything in Birthday Battle</li>
+            <li>Scaled gear for larger headcounts</li>
+            <li>Multiple simultaneous game zones</li>
+            <li>Great for schools &amp; nonprofits</li>
+          </ul>
+          <a href="#book" class="btn btn-dark">Request this</a>
+        </div>
+        <div class="price-ticket reveal reveal-2 tilt-b">
+          <span class="plan-name">Corporate</span>
+          <div class="price"><sup>$</sup>1,200</div>
+          <div class="price-note">Starting at — full team-building experience</div>
+          <ul>
+            <li>Everything in Large Group</li>
+            <li>Team-building game structure</li>
+            <li>Handles 50–200+ people</li>
+            <li>Dedicated event lead &amp; planning call</li>
+          </ul>
+          <a href="#book" class="btn btn-dark">Request this</a>
+        </div>
+      </div>
+      <p class="pricing-footnote">Need something bigger, smaller, or weirder? Every quote is custom past the starting rate — tell us what you're picturing and we'll price it out.</p>
+    </div>
+  </section>
+
+  <div class="dart-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 Q300,-10 600,30 T1200,30" fill="none" stroke="#fdd02c" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.55"/>
+      <polygon points="1178,20 1200,30 1178,40 1184,30" fill="#db0709"/>
+    </svg>
+  </div>
+
+  <!-- RECENT BATTLES -->
+  <section class="section-dark" id="battles">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Proof of battle</p>
+        <h2>Recent battles.</h2>
+        <p>A sample of past ADC events. Photo &amp; video gallery coming soon — placeholders below until real event media is added.</p>
+      </div>
+      <div class="battles-grid">
+        <div class="battle-tile reveal">
+          <span class="ph-badge">Photo coming soon</span>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          <h4>Mazi's 5th Birthday Battle</h4>
+          <p>Birthday Nerf Battle Experience</p>
+        </div>
+        <div class="battle-tile reveal reveal-1">
+          <span class="ph-badge">Photo coming soon</span>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          <h4>OTP: Star Wars</h4>
+          <p>Public Nerf Battle Event</p>
+        </div>
+        <div class="battle-tile reveal reveal-2">
+          <span class="ph-badge">Photo coming soon</span>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          <h4>Holy Innocents Welcome Back</h4>
+          <p>Community Partnership</p>
+        </div>
+        <div class="battle-tile reveal reveal-3">
+          <span class="ph-badge">Photo coming soon</span>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          <h4>Adult Swim: Nerf Battle</h4>
+          <p>Public Nerf Battle Event</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section-light">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow on-light">What people say</p>
+        <h2>Straight from the field.</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal tilt-c">
+          <div class="quote-mark">"</div>
+          <p class="quote">ATL Dart Club made my daughter's birthday an amazing experience.</p>
+          <div class="testi-who"><strong>Chris Tuff</strong><span>Author &amp; Speaker</span></div>
+        </div>
+        <div class="testi-card reveal reveal-1 tilt-d">
+          <div class="quote-mark">"</div>
+          <p class="quote">Our students and staff look forward to the ADC Nerf Battle every single year.</p>
+          <div class="testi-who"><strong>Kay Wright</strong><span>Special Events Coordinator, Holy Innocents' Episcopal School</span></div>
+        </div>
+        <div class="testi-card reveal reveal-2 tilt-a">
+          <div class="quote-mark">"</div>
+          <p class="quote">Every site lights up when ADC comes through to host a Nerf battle.</p>
+          <div class="testi-who"><strong>Mike Mells</strong><span>Director, Boys &amp; Girls Club</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="section-dark" id="book">
+    <div class="wrap book-grid">
+      <div class="book-copy">
+        <p class="eyebrow">Let's book it</p>
+        <h2>Request to book.</h2>
+        <p>Tell us what you're picturing — we'll follow up with exact pricing and next steps. No calendar or deposit yet, just a real conversation first.</p>
+        <ul class="book-points">
+          <li>We reply with a custom quote, usually within 1–2 business days</li>
+          <li>Tell us your location — we travel to you</li>
+          <li>Corporate bookings get a dedicated planning call</li>
+        </ul>
+      </div>
+
+      <form class="book-form" id="bookForm">
+        <div class="form-success" id="formSuccess">Request received. We'll follow up shortly to lock in the details.</div>
+
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="field">
+          <label for="eventType">Event type</label>
+          <select id="eventType" name="eventType" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Corporate / Team Building</option>
+            <option>Birthday</option>
+            <option>Public Pop-Up</option>
+            <option>Community Partnership</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="groupSize">Group size</label>
+          <input type="text" id="groupSize" name="groupSize" placeholder="e.g. 25 people" required>
+        </div>
+
+        <div class="field">
+          <label for="date">Preferred date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="field">
+          <label for="location">Location / venue</label>
+          <input type="text" id="location" name="location" placeholder="Park, gym, office address…" required>
+        </div>
+
+        <div class="field full">
+          <label for="details">Anything else we should know?</label>
+          <textarea id="details" name="details" placeholder="Theme ideas, timing, special requests…"></textarea>
+        </div>
+
+        <p class="form-note">This form doesn't send anywhere yet — connect it to your email or booking tool when ready to go live.</p>
+
+        <button type="submit" class="btn btn-primary">Send Request</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="assets/logo-red.png" alt="ATL Dart Club logo">
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="#services">Corporate</a>
+          <a href="#services">Birthdays</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#battles">Recent Battles</a>
+          <a href="events.html">Upcoming Events</a>
+        </div>
+        <div class="footer-col">
+          <h5>Get in touch</h5>
+          <a href="#book">Request to Book</a>
+          <span>Decatur &amp; Atlanta, GA</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ATL Dart Club. All rights reserved.</span>
+      <span>Nerf As A Service™</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // scroll-reveal for cards & section content
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  // video sound toggles — only one video plays with sound at a time
+  const soundButtons = document.querySelectorAll('.video-sound-toggle');
+  soundButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const video = btn.closest('.video-tile').querySelector('video');
+      const currentlyMuted = video.muted;
+      // mute all videos + reset icons first
+      document.querySelectorAll('.battle-video').forEach(v => v.muted = true);
+      soundButtons.forEach(b => b.textContent = '🔇');
+      if (currentlyMuted) {
+        video.muted = false;
+        btn.textContent = '🔊';
+      }
+    });
+  });
+
+  // booking form (no backend yet — local success state only)
+  const bookForm = document.getElementById('bookForm');
+  const formSuccess = document.getElementById('formSuccess');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function burstConfetti(originEl){
+    if (prefersReducedMotion) return;
+    const colors = ['#fdd02c', '#db0709', '#f5eedc'];
+    const rect = originEl.getBoundingClientRect();
+    for (let i = 0; i < 18; i++) {
+      const piece = document.createElement('div');
+      const size = 6 + Math.random() * 6;
+      piece.style.cssText = `
+        position:fixed; left:${rect.left + rect.width/2}px; top:${rect.top}px;
+        width:${size}px; height:${size}px; background:${colors[i % colors.length]};
+        border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+        pointer-events:none; z-index:9999; opacity:1;
+        transition: transform 900ms cubic-bezier(.2,.7,.3,1), opacity 900ms ease;
+      `;
+      document.body.appendChild(piece);
+      const angle = (Math.random() - 0.5) * Math.PI;
+      const distance = 90 + Math.random() * 140;
+      const dx = Math.sin(angle) * distance;
+      const dy = -Math.abs(Math.cos(angle) * distance) - 40;
+      requestAnimationFrame(() => {
+        piece.style.transform = `translate(${dx}px, ${dy + 220}px) rotate(${(Math.random()*720-360)}deg)`;
+        piece.style.opacity = '0';
+      });
+      setTimeout(() => piece.remove(), 950);
+    }
+  }
+
+  bookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!bookForm.checkValidity()) { bookForm.reportValidity(); return; }
+    formSuccess.classList.add('show');
+    const submitBtn = bookForm.querySelector('button[type="submit"]');
+    bookForm.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
+    submitBtn.textContent = 'Request Sent';
+    submitBtn.disabled = true;
+    burstConfetti(submitBtn);
+    formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+</script>
+
+</body>
+</html>
