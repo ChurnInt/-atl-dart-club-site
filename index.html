@@ -109,6 +109,44 @@
   .float-deco{position:absolute; pointer-events:none; opacity:0.9;}
   @media (prefers-reduced-motion: no-preference){ .float-deco{animation:bob 5.5s ease-in-out infinite;} }
 
+  .nerf-accent{
+    position:absolute; pointer-events:none; user-select:none; z-index:1;
+    mix-blend-mode:screen;
+  }
+  .nerf-accent.blaster-red{
+    left:-4%; bottom:4%;
+    width:min(42vw, 360px);
+    --r:-16deg;
+    transform:rotate(var(--r));
+  }
+  .nerf-accent.blaster-blue{
+    right:-6%; top:18%;
+    width:min(38vw, 320px);
+    --r:18deg;
+    transform:rotate(var(--r)) scaleX(-1);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .nerf-accent.blaster-red, .nerf-accent.blaster-blue{animation:bob 7.5s ease-in-out infinite;}
+  }
+  .has-nerf{position:relative; overflow:hidden;}
+
+  .action-head{
+    display:grid; grid-template-columns:1fr 0.9fr; gap:12px 24px;
+    align-items:end; margin-bottom:28px;
+  }
+  .action-head .section-head{margin-bottom:0; position:relative; z-index:2;}
+  .squad-cutout{
+    width:100%; max-width:520px; justify-self:end;
+    margin-bottom:-28px;
+    filter:drop-shadow(0 18px 36px rgba(0,0,0,0.45));
+  }
+  @media (max-width:860px){
+    .nerf-accent.blaster-red{width:min(58vw, 220px); left:-12%; bottom:2%; opacity:0.7;}
+    .nerf-accent.blaster-blue{width:min(52vw, 200px); right:-18%; top:8%; opacity:0.55;}
+    .action-head{grid-template-columns:1fr;}
+    .squad-cutout{max-width:340px; margin:8px auto -12px; justify-self:center;}
+  }
+
   /* ---------- NAV ---------- */
   header.site-nav{
     position:sticky; top:0; z-index:100;
@@ -509,6 +547,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-rings" aria-hidden="true"></div>
+    <img class="nerf-accent blaster-red" src="assets/blaster-red.png" alt="" aria-hidden="true">
     <svg class="float-deco" style="left:6%; top:22%; width:34px; height:34px; animation-delay:.2s;" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.8" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
     <svg class="float-deco" style="left:14%; top:68%; width:26px; height:26px; animation-delay:1.4s;" viewBox="0 0 24 24" fill="none" stroke="#db0709" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
     <svg class="float-deco" style="left:48%; top:8%; width:20px; height:20px; animation-delay:.8s;" viewBox="0 0 24 24" fill="#fdd02c" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
@@ -592,7 +631,8 @@
   </div>
 
   <!-- SERVICES -->
-  <section class="section-dark" id="services">
+  <section class="section-dark has-nerf" id="services">
+    <img class="nerf-accent blaster-blue" src="assets/blaster-blue.png" alt="" aria-hidden="true">
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">What we run</p>
@@ -638,10 +678,13 @@
   <!-- SEE IT IN ACTION (video) -->
   <section class="section-dark" id="in-action">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">See it in action</p>
-        <h2>This is what "team building" looks like here.</h2>
-        <p>Real energy, real reactions — this is the kind of chaos your office is signing up for.</p>
+      <div class="action-head">
+        <div class="section-head reveal">
+          <p class="eyebrow">See it in action</p>
+          <h2>This is what "team building" looks like here.</h2>
+          <p>Real energy, real reactions — this is the kind of chaos your office is signing up for.</p>
+        </div>
+        <img class="squad-cutout reveal reveal-1" src="assets/squad.png" alt="Three players in masks aiming Nerf Rival blasters">
       </div>
       <div class="video-grid">
         <div class="video-tile reveal tilt-a">

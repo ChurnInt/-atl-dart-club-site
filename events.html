@@ -106,6 +106,20 @@
   .float-deco{position:absolute; pointer-events:none; opacity:0.9;}
   @media (prefers-reduced-motion: no-preference){ .float-deco{animation:bob 5.5s ease-in-out infinite;} }
 
+  .nerf-accent{
+    position:absolute; pointer-events:none; user-select:none; z-index:1;
+    mix-blend-mode:screen;
+  }
+  .nerf-accent.blaster-red{
+    right:-5%; bottom:-8%;
+    width:min(42vw, 340px);
+    --r:12deg;
+    transform:rotate(var(--r)) scaleX(-1);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .nerf-accent.blaster-red{animation:bob 7.5s ease-in-out infinite;}
+  }
+
   /* ---------- NAV ---------- */
   header.site-nav{
     position:sticky; top:0; z-index:100;
@@ -437,6 +451,7 @@
 <style>
   /* ---------- EVENTS PAGE ---------- */
   .events-hero{
+    position:relative; overflow:hidden;
     padding:120px 0 60px;
     background:
       radial-gradient(circle at 85% 10%, rgba(219,7,9,0.18), transparent 45%),
@@ -444,6 +459,7 @@
       radial-gradient(rgba(245,238,220,0.05) 1.4px, transparent 1.4px) 0 0/22px 22px,
       var(--black);
   }
+  .events-hero .wrap{position:relative; z-index:2;}
   .events-hero h1{font-size:clamp(2.4rem,5.5vw,3.8rem); color:var(--cream);}
 
   .placeholder-note{
@@ -530,6 +546,7 @@
 
   <!-- EVENTS HERO -->
   <section class="events-hero">
+    <img class="nerf-accent blaster-red" src="assets/blaster-red.png" alt="" aria-hidden="true">
     <div class="wrap">
       <p class="eyebrow">Public battles</p>
       <h1>UPCOMING<br><span class="accent">EVENTS</span></h1>
