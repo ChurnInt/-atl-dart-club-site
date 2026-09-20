@@ -395,15 +395,31 @@
   .field textarea{resize:vertical; min-height:90px;}
   .book-form .btn{grid-column:1 / -1; justify-self:start; margin-top:6px;}
   .form-note{grid-column:1/-1; font-size:0.82rem; color:var(--ink-dim); margin-top:-6px;}
+  .form-error{
+    display:none; grid-column:1/-1; color:var(--red);
+    font-family:'Space Grotesk'; font-weight:600; font-size:0.88rem;
+  }
+  .form-error.show{display:block;}
   .form-success{
     display:none; grid-column:1/-1; background:var(--red); color:var(--cream);
     padding:18px 20px; border-radius:14px; font-family:'Space Grotesk'; font-weight:600; font-size:0.95rem;
   }
   .form-success.show{display:block;}
+  .hp{position:absolute; left:-9999px; height:0; width:0; overflow:hidden;}
+  .birthday-fields{
+    grid-column:1 / -1;
+    display:grid; grid-template-columns:1fr 1fr; gap:18px;
+    background:rgba(219,7,9,0.08);
+    border:2px dashed rgba(219,7,9,0.28);
+    border-radius:14px; padding:16px;
+  }
+  .birthday-fields[hidden]{display:none !important;}
+  .birthday-fields .full{grid-column:1 / -1;}
 
   @media (max-width:860px){
     .book-grid{grid-template-columns:1fr;}
     form.book-form{grid-template-columns:1fr; padding:26px;}
+    .birthday-fields{grid-template-columns:1fr;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -743,6 +759,9 @@
 
       <form class="book-form" id="bookForm">
         <div class="form-success" id="formSuccess">Request received. We'll follow up shortly to lock in the details.</div>
+        <p class="form-error" id="formError" role="alert"></p>
+        <input type="hidden" name="_subject" value="New ATL Dart Club booking request">
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <div class="field">
           <label for="name">Full name</label>
@@ -752,26 +771,45 @@
           <label for="email">Email</label>
           <input type="email" id="email" name="email" required>
         </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="Optional">
+        </div>
 
         <div class="field">
           <label for="eventType">Event type</label>
-          <select id="eventType" name="eventType" required>
+          <select id="eventType" name="event_type" required>
             <option value="" disabled selected>Select one</option>
-            <option>Corporate / Team Building</option>
-            <option>Birthday</option>
-            <option>Public Pop-Up</option>
-            <option>Community Partnership</option>
-            <option>Other</option>
+            <option value="Corporate / Team Building">Corporate / Team Building</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Public Pop-Up">Public Pop-Up</option>
+            <option value="Community Partnership">Community Partnership</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div class="field">
           <label for="groupSize">Group size</label>
-          <input type="text" id="groupSize" name="groupSize" placeholder="e.g. 25 people" required>
+          <input type="text" id="groupSize" name="group_size" placeholder="e.g. 25 people" required>
+        </div>
+
+        <div class="birthday-fields" id="birthdayFields" hidden>
+          <div class="field">
+            <label for="birthdayPersonName">Birthday person's name</label>
+            <input type="text" id="birthdayPersonName" name="birthday_person_name" disabled>
+          </div>
+          <div class="field">
+            <label for="birthdayAgeTurning">Age they are turning</label>
+            <input type="number" id="birthdayAgeTurning" name="birthday_age_turning" min="1" max="120" inputmode="numeric" disabled>
+          </div>
+          <div class="field full">
+            <label for="birthdayDate">Date of the birthday</label>
+            <input type="date" id="birthdayDate" name="birthday_date" disabled>
+          </div>
         </div>
 
         <div class="field">
-          <label for="date">Preferred date</label>
-          <input type="date" id="date" name="date" required>
+          <label for="date">Preferred event date</label>
+          <input type="date" id="date" name="preferred_date" required>
         </div>
         <div class="field">
           <label for="location">Location / venue</label>
@@ -780,10 +818,10 @@
 
         <div class="field full">
           <label for="details">Anything else we should know?</label>
-          <textarea id="details" name="details" placeholder="Theme ideas, timing, special requests…"></textarea>
+          <textarea id="details" name="message" placeholder="Theme ideas, timing, special requests…"></textarea>
         </div>
 
-        <p class="form-note">This form doesn't send anywhere yet — connect it to your email or booking tool when ready to go live.</p>
+        <p class="form-note">We'll reply with a custom quote, usually within 1–2 business days.</p>
 
         <button type="submit" class="btn btn-primary">Send Request</button>
       </form>
@@ -810,6 +848,7 @@
         <div class="footer-col">
           <h5>Get in touch</h5>
           <a href="#book">Request to Book</a>
+          <a href="mailto:churinteractive@gmail.com">churinteractive@gmail.com</a>
           <span>Decatur &amp; Atlanta, GA</span>
         </div>
       </div>
@@ -864,10 +903,24 @@
     });
   });
 
-  // booking form (no backend yet — local success state only)
   const bookForm = document.getElementById('bookForm');
   const formSuccess = document.getElementById('formSuccess');
+  const formError = document.getElementById('formError');
+  const eventType = document.getElementById('eventType');
+  const birthdayFields = document.getElementById('birthdayFields');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function syncBirthdayFields(){
+    const isBirthday = eventType.value === 'Birthday';
+    birthdayFields.hidden = !isBirthday;
+    birthdayFields.querySelectorAll('input').forEach((el) => {
+      el.disabled = !isBirthday;
+      el.required = isBirthday;
+      if (!isBirthday) el.value = '';
+    });
+  }
+  eventType.addEventListener('change', syncBirthdayFields);
+  syncBirthdayFields();
 
   function burstConfetti(originEl){
     if (prefersReducedMotion) return;
@@ -896,16 +949,35 @@
     }
   }
 
-  bookForm.addEventListener('submit', (e) => {
+  bookForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!bookForm.checkValidity()) { bookForm.reportValidity(); return; }
-    formSuccess.classList.add('show');
+    if (bookForm.querySelector('[name="_gotcha"]')?.value) return;
+
     const submitBtn = bookForm.querySelector('button[type="submit"]');
-    bookForm.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
-    submitBtn.textContent = 'Request Sent';
+    formError.classList.remove('show');
+    formError.textContent = '';
     submitBtn.disabled = true;
-    burstConfetti(submitBtn);
-    formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://formspree.io/f/mppwpwzg', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(bookForm)
+      });
+      if (!res.ok) throw new Error('Formspree error');
+      formSuccess.classList.add('show');
+      bookForm.querySelectorAll('input, select, textarea, button').forEach((el) => el.disabled = true);
+      submitBtn.textContent = 'Request Sent';
+      burstConfetti(submitBtn);
+      formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Request';
+      formError.textContent = 'Could not send. Check your connection and try again, or email churinteractive@gmail.com.';
+      formError.classList.add('show');
+    }
   });
 </script>
 

@@ -479,6 +479,14 @@
   .follow-block h3{font-family:'Anton'; font-size:1.8rem; color:var(--cream); margin-bottom:12px;}
   .follow-block p{color:var(--dark-text-dim); max-width:48ch; margin:0 auto 24px;}
   .follow-block .btn-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  .events-empty{
+    text-align:center;
+    background:var(--black-soft); border:1px solid var(--dark-line);
+    border-radius:22px; padding:56px 28px;
+  }
+  .events-empty h2{font-size:clamp(1.8rem,4vw,2.4rem); color:var(--cream); margin:10px 0 14px;}
+  .events-empty p{color:var(--dark-text-dim); max-width:48ch; margin:0 auto 28px;}
 </style>
 </head>
 <body>
@@ -526,51 +534,16 @@
   <section class="section-dark">
     <div class="wrap">
 
-      <div class="placeholder-note">
-        <span>⚠️</span>
-        <span><strong>Heads up:</strong> the events below are placeholder examples so you can see the layout. Swap in real dates, locations, and details before this page goes live — an unedited fake date here could send people to a battle that isn't actually happening.</span>
-      </div>
-
-      <div class="events-list">
-
-        <div class="event-card reveal tilt-a">
-          <div class="event-date"><span class="month">Sep</span><span class="day">20</span></div>
-          <div class="event-info">
-            <span class="example-tag">Example — replace me</span>
-            <h3>BeltLine Pop-Up Battle</h3>
-            <p>Open Nerf battle along the Eastside Trail. All ages, all skill levels — just bring your own energy.</p>
-            <div class="meta"><span>📍 Atlanta BeltLine</span><span>🕓 4:00 – 6:00 PM</span></div>
-          </div>
-          <a href="https://facebook.com/events/REPLACE-WITH-REAL-EVENT-LINK" target="_blank" rel="noopener" class="btn btn-ghost">Details</a>
-        </div>
-
-        <div class="event-card reveal reveal-1 tilt-b">
-          <div class="event-date"><span class="month">Oct</span><span class="day">11</span></div>
-          <div class="event-info">
-            <span class="example-tag">Example — replace me</span>
-            <h3>Piedmont Park Showdown</h3>
-            <p>Free-for-all battle in the park — teams drawn on the spot. Spectators welcome.</p>
-            <div class="meta"><span>📍 Piedmont Park</span><span>🕓 1:00 – 3:00 PM</span></div>
-          </div>
-          <a href="https://facebook.com/events/REPLACE-WITH-REAL-EVENT-LINK" target="_blank" rel="noopener" class="btn btn-ghost">Details</a>
-        </div>
-
-        <div class="event-card reveal reveal-2 tilt-c">
-          <div class="event-date"><span class="month">Nov</span><span class="day">2</span></div>
-          <div class="event-info">
-            <span class="example-tag">Example — replace me</span>
-            <h3>Decatur Square Community Battle</h3>
-            <p>A community-partnership pop-up right on the square — family-friendly, all ages.</p>
-            <div class="meta"><span>📍 Decatur Square</span><span>🕓 11:00 AM – 1:00 PM</span></div>
-          </div>
-          <a href="https://facebook.com/events/REPLACE-WITH-REAL-EVENT-LINK" target="_blank" rel="noopener" class="btn btn-ghost">Details</a>
-        </div>
-
+      <div class="events-empty reveal">
+        <p class="eyebrow">Public calendar</p>
+        <h2>No public pop-ups listed yet.</h2>
+        <p>When a city battle is locked in, the date and location will show up here. Until then we still come to you — parks, gyms, offices, and backyards.</p>
+        <a href="index.html#book" class="btn btn-primary">Request a Private Battle</a>
       </div>
 
       <div class="follow-block reveal">
-        <h3>Don't see one near you yet?</h3>
-        <p>New pop-up events get added regularly — follow along so you don't miss the next one, or just book a private battle for your own crowd.</p>
+        <h3>Planning a private event?</h3>
+        <p>Tell us the occasion, crowd size, and where you want the battlefield. We'll follow up with a custom quote.</p>
         <div class="btn-row">
           <a href="index.html#book" class="btn btn-primary">Request a Private Battle</a>
           <a href="index.html" class="btn btn-ghost">Back to Home</a>
@@ -600,6 +573,7 @@
         <div class="footer-col">
           <h5>Get in touch</h5>
           <a href="index.html#book">Request to Book</a>
+          <a href="mailto:churinteractive@gmail.com">churinteractive@gmail.com</a>
           <span>Decatur &amp; Atlanta, GA</span>
         </div>
       </div>
