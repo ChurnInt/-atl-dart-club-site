@@ -91,6 +91,7 @@
     .reveal-1{transition-delay:.05s;} .reveal-2{transition-delay:.12s;} .reveal-3{transition-delay:.19s;} .reveal-4{transition-delay:.26s;}
     .nav-logo img{animation:spin-slow 22s linear infinite;}
     .nav-logo:hover img{animation-play-state:paused;}
+    .hero-mark img{animation:wiggle-in .8s cubic-bezier(.34,1.56,.64,1) both, hero-idle 7s ease-in-out 1s infinite;}
   }
   .tilt-a{transform:rotate(-1.6deg);} .tilt-b{transform:rotate(1.4deg);} .tilt-c{transform:rotate(-1deg);} .tilt-d{transform:rotate(1.1deg);}
   .tilt-a,.tilt-b,.tilt-c,.tilt-d{transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;}
@@ -101,6 +102,7 @@
   @keyframes dash-flow{to{stroke-dashoffset:-200;}}
   @keyframes pop-in{0%{transform:scale(0.6); opacity:0;} 60%{transform:scale(1.08); opacity:1;} 100%{transform:scale(1);}}
   @keyframes wiggle-in{0%{transform:rotate(-10deg) scale(0.85); opacity:0;} 60%{transform:rotate(4deg) scale(1.04);} 100%{transform:rotate(-6deg) scale(1); opacity:1;}}
+  @keyframes hero-idle{0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-12px) rotate(2deg);}}
   @keyframes marquee-scroll{to{transform:translateX(-50%);}}
   @keyframes count-pulse{0%{transform:scale(1);} 30%{transform:scale(1.08);} 100%{transform:scale(1);}}
 
@@ -123,10 +125,22 @@
   .nav-logo img{height:55px; width:55px; object-fit:cover; border-radius:50%;}
   .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
   .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
-  .nav-links a{text-decoration:none; color:var(--dark-text-dim); transition:color .15s ease; margin-right:28px;}
+  .nav-links a{
+    display:inline-block;
+    text-decoration:none; color:var(--dark-text-dim);
+    margin-right:28px;
+    transform:scale(1);
+    transform-origin:center bottom;
+    transition:color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
   .nav-links a:last-child{margin-right:0;}
-  .nav-links a:hover{color:var(--yellow);}
+  .nav-links a:hover{
+    color:var(--yellow);
+    transform:scale(1.12);
+  }
   .nav-cta{display:flex; align-items:center;}
+  .nav-cta .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;}
+  .nav-cta .btn:hover{transform:scale(1.1) translate(-2px,-2px) rotate(-1deg);}
   .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
 
   @media (max-width:860px){
@@ -159,8 +173,7 @@
       radial-gradient(rgba(245,238,220,0.05) 1.4px, transparent 1.4px) 0 0/22px 22px,
       var(--black);
   }
-  .hero-mark img{animation: wiggle-in .8s cubic-bezier(.34,1.56,.64,1) both;}
-  .hero-mark:hover img{transform:rotate(3deg) scale(1.03); transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+  .hero-mark:hover img{animation-play-state:paused; transform:rotate(3deg) scale(1.04); transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
   .hero-rings{
     position:absolute; right:-120px; top:-120px; width:520px; height:520px;
     border-radius:50%; border:2px dashed rgba(253,208,44,0.18);
@@ -179,19 +192,19 @@
   .hero h1 .accent{color:var(--red); -webkit-text-stroke:1.5px var(--yellow); text-stroke:1.5px var(--yellow);}
   .hero-sub{font-size:clamp(1.18rem, 2.1vw, 1.42rem); line-height:1.55; color:var(--yellow); max-width:48ch; margin:22px 0 34px;}
   .hero-ctas{display:flex; flex-wrap:wrap; gap:16px; margin-bottom:34px;}
-  .hero-meta{display:flex; gap:26px; flex-wrap:wrap; font-family:'Space Grotesk'; font-size:0.85rem; color:var(--dark-text-dim);}
+  .hero-meta{display:flex; gap:26px; flex-wrap:wrap; font-family:'Space Grotesk'; font-size:clamp(0.98rem, 1.5vw, 1.12rem); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--cream);}
   .hero-meta span{margin-right:26px;}
   .hero-meta span:last-child{margin-right:0;}
   .hero-meta strong{color:var(--yellow);}
   .hero-mark{
     position:relative; display:flex; justify-content:center; align-items:center;
   }
-  .hero-mark img{width:100%; max-width:420px; filter:drop-shadow(0 20px 40px rgba(219,7,9,0.25));}
+  .hero-mark img{width:100%; max-width:567px; filter:drop-shadow(0 20px 40px rgba(219,7,9,0.25));}
 
   @media (max-width:860px){
     .hero-grid{grid-template-columns:1fr;}
     .hero-mark{order:-1; margin-bottom:8px;}
-    .hero-mark img{max-width:240px;}
+    .hero-mark img{max-width:324px;}
   }
 
   /* ---------- TRUST STRIP ---------- */

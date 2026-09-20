@@ -122,10 +122,22 @@
   .nav-logo img{height:55px; width:55px; object-fit:cover; border-radius:50%;}
   .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
   .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
-  .nav-links a{text-decoration:none; color:var(--dark-text-dim); transition:color .15s ease; margin-right:28px;}
+  .nav-links a{
+    display:inline-block;
+    text-decoration:none; color:var(--dark-text-dim);
+    margin-right:28px;
+    transform:scale(1);
+    transform-origin:center bottom;
+    transition:color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
   .nav-links a:last-child{margin-right:0;}
-  .nav-links a:hover{color:var(--yellow);}
+  .nav-links a:hover{
+    color:var(--yellow);
+    transform:scale(1.12);
+  }
   .nav-cta{display:flex; align-items:center;}
+  .nav-cta .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;}
+  .nav-cta .btn:hover{transform:scale(1.1) translate(-2px,-2px) rotate(-1deg);}
   .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
 
   @media (max-width:860px){
