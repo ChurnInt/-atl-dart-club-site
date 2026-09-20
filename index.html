@@ -330,10 +330,11 @@
   .video-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
   .video-tile{
     position:relative; border-radius:20px; overflow:hidden;
-    aspect-ratio:4/5; background:var(--black-soft);
+    aspect-ratio:16/9; background:var(--black-soft);
     border:1px solid var(--dark-line);
     box-shadow: var(--shadow-hard);
   }
+  .video-tile.featured{grid-column:1 / -1; aspect-ratio:16/8;}
   .video-tile .battle-video{width:100%; height:100%; object-fit:cover; display:block;}
   .video-sound-toggle{
     position:absolute; bottom:14px; right:14px;
@@ -345,7 +346,10 @@
   }
   .video-sound-toggle:hover{background:var(--red); transform:scale(1.08);}
 
-  @media (max-width:860px){ .video-grid{grid-template-columns:1fr;} }
+  @media (max-width:860px){
+    .video-grid{grid-template-columns:1fr;}
+    .video-tile.featured{aspect-ratio:16/9;}
+  }
 
   /* ---------- PRICING ---------- */
   .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
@@ -691,23 +695,29 @@
         <img class="squad-cutout reveal reveal-1" src="assets/squad.png" alt="Three players in masks aiming Nerf Rival blasters">
       </div>
       <div class="video-grid">
-        <div class="video-tile reveal tilt-a">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-1-poster.jpg">
+        <div class="video-tile featured reveal tilt-a">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
             <source src="assets/video/office-battle-1.mp4" type="video/mp4">
           </video>
           <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v1">🔇</button>
         </div>
         <div class="video-tile reveal reveal-1 tilt-b">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-2-poster.jpg">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
             <source src="assets/video/office-battle-2.mp4" type="video/mp4">
           </video>
           <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v2">🔇</button>
         </div>
         <div class="video-tile reveal reveal-2 tilt-c">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata" poster="assets/video/office-battle-3-poster.jpg">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
             <source src="assets/video/office-battle-3.mp4" type="video/mp4">
           </video>
           <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v3">🔇</button>
+        </div>
+        <div class="video-tile reveal reveal-3 tilt-d">
+          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
+            <source src="assets/video/office-battle-4.mp4" type="video/mp4">
+          </video>
+          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v4">🔇</button>
         </div>
       </div>
     </div>
