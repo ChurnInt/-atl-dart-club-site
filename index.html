@@ -431,24 +431,24 @@
   .book-form .form-success{background:var(--yellow); color:var(--black);}
   .form-success.show{display:block;}
   .hp{position:absolute; left:-9999px; height:0; width:0; overflow:hidden;}
-  .birthday-fields{
+  .birthday-fields, .extra-fields{
     grid-column:1 / -1;
     display:grid; grid-template-columns:1fr 1fr; gap:18px;
     background:rgba(219,7,9,0.08);
     border:2px dashed rgba(219,7,9,0.28);
     border-radius:14px; padding:16px;
   }
-  .book-form .birthday-fields{
+  .book-form .birthday-fields, .book-form .extra-fields{
     background:rgba(74,36,120,0.18);
     border-color:rgba(253,208,44,0.5);
   }
-  .birthday-fields[hidden]{display:none !important;}
-  .birthday-fields .full{grid-column:1 / -1;}
+  .birthday-fields[hidden], .extra-fields[hidden]{display:none !important;}
+  .birthday-fields .full, .extra-fields .full{grid-column:1 / -1;}
 
   @media (max-width:860px){
     .book-grid{grid-template-columns:1fr;}
     form.book-form{grid-template-columns:1fr; padding:26px;}
-    .birthday-fields{grid-template-columns:1fr;}
+    .birthday-fields, .extra-fields{grid-template-columns:1fr;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -820,6 +820,17 @@
           <input type="text" id="groupSize" name="group_size" placeholder="e.g. 25 people" required>
         </div>
 
+        <div class="extra-fields" id="corporateFields" hidden>
+          <div class="field">
+            <label for="organizationName">Organization name</label>
+            <input type="text" id="organizationName" name="organization_name" disabled>
+          </div>
+          <div class="field">
+            <label for="organizationWebsite">Organization website</label>
+            <input type="url" id="organizationWebsite" name="organization_website" placeholder="https://" disabled>
+          </div>
+        </div>
+
         <div class="birthday-fields" id="birthdayFields" hidden>
           <div class="field">
             <label for="birthdayPersonName">Birthday person's name</label>
@@ -936,19 +947,23 @@
   const formError = document.getElementById('formError');
   const eventType = document.getElementById('eventType');
   const birthdayFields = document.getElementById('birthdayFields');
+  const corporateFields = document.getElementById('corporateFields');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function syncBirthdayFields(){
-    const isBirthday = eventType.value === 'Birthday';
-    birthdayFields.hidden = !isBirthday;
-    birthdayFields.querySelectorAll('input').forEach((el) => {
-      el.disabled = !isBirthday;
-      el.required = isBirthday;
-      if (!isBirthday) el.value = '';
+  function toggleExtraFields(panel, show, requiredSelector){
+    panel.hidden = !show;
+    panel.querySelectorAll('input').forEach((el) => {
+      el.disabled = !show;
+      el.required = show && el.matches(requiredSelector);
+      if (!show) el.value = '';
     });
   }
-  eventType.addEventListener('change', syncBirthdayFields);
-  syncBirthdayFields();
+  function syncEventExtras(){
+    toggleExtraFields(birthdayFields, eventType.value === 'Birthday', 'input');
+    toggleExtraFields(corporateFields, eventType.value === 'Corporate / Team Building', '#organizationName');
+  }
+  eventType.addEventListener('change', syncEventExtras);
+  syncEventExtras();
 
   function burstConfetti(originEl){
     if (prefersReducedMotion) return;
