@@ -16,6 +16,7 @@
     --cream-dim:#ece2c8;
     --red:#db0709;
     --yellow:#fdd02c;
+    --purple:#5a308c;
     --ink:#171310;
     --paper-line: rgba(23,19,16,0.14);
     --dark-line: rgba(245,238,220,0.14);
@@ -378,32 +379,56 @@
   .book-points li::before{content:'→'; color:var(--red); font-weight:700;}
 
   form.book-form{
-    background:var(--cream); color:var(--ink);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(90,48,140,0.22), transparent 46%),
+      linear-gradient(165deg, #e30b0e 0%, var(--red) 58%, #9e0824 100%);
+    color:var(--cream);
+    border:3px solid var(--yellow);
     border-radius:22px; padding:34px;
     display:grid; grid-template-columns:1fr 1fr; gap:18px;
-    box-shadow: var(--shadow-hard);
+    box-shadow:
+      var(--shadow-hard),
+      0 0 0 1px rgba(90,48,140,0.28),
+      14px 16px 0 rgba(74,36,120,0.16);
   }
   .field{display:flex; flex-direction:column; gap:6px;}
   .field.full{grid-column:1 / -1;}
   .field label{font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em;}
+  .book-form .field label{color:var(--yellow);}
   .field input, .field select, .field textarea{
     font-family:'Work Sans'; font-size:0.98rem;
     padding:12px 14px; border-radius:10px; border:2px solid rgba(23,19,16,0.18);
     background:#fff; color:var(--ink);
   }
+  .book-form .field input, .book-form .field select, .book-form .field textarea{
+    background:#fffdf3;
+    border-color:rgba(253,208,44,0.62);
+  }
   .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--red);}
+  .book-form .field input:focus, .book-form .field select:focus, .book-form .field textarea:focus{
+    border-color:var(--yellow);
+    box-shadow:0 0 0 3px rgba(90,48,140,0.28);
+    outline:none;
+  }
   .field textarea{resize:vertical; min-height:90px;}
   .book-form .btn{grid-column:1 / -1; justify-self:start; margin-top:6px;}
+  .book-form .btn-primary{
+    background:var(--yellow);
+    color:var(--black);
+  }
   .form-note{grid-column:1/-1; font-size:0.82rem; color:var(--ink-dim); margin-top:-6px;}
+  .book-form .form-note{color:rgba(245,238,220,0.78);}
   .form-error{
     display:none; grid-column:1/-1; color:var(--red);
     font-family:'Space Grotesk'; font-weight:600; font-size:0.88rem;
   }
+  .book-form .form-error{color:var(--yellow);}
   .form-error.show{display:block;}
   .form-success{
     display:none; grid-column:1/-1; background:var(--red); color:var(--cream);
     padding:18px 20px; border-radius:14px; font-family:'Space Grotesk'; font-weight:600; font-size:0.95rem;
   }
+  .book-form .form-success{background:var(--yellow); color:var(--black);}
   .form-success.show{display:block;}
   .hp{position:absolute; left:-9999px; height:0; width:0; overflow:hidden;}
   .birthday-fields{
@@ -412,6 +437,10 @@
     background:rgba(219,7,9,0.08);
     border:2px dashed rgba(219,7,9,0.28);
     border-radius:14px; padding:16px;
+  }
+  .book-form .birthday-fields{
+    background:rgba(74,36,120,0.18);
+    border-color:rgba(253,208,44,0.5);
   }
   .birthday-fields[hidden]{display:none !important;}
   .birthday-fields .full{grid-column:1 / -1;}
