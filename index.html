@@ -89,6 +89,8 @@
     .reveal{opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;}
     .reveal.in-view{opacity:1; transform:translateY(0);}
     .reveal-1{transition-delay:.05s;} .reveal-2{transition-delay:.12s;} .reveal-3{transition-delay:.19s;} .reveal-4{transition-delay:.26s;}
+    .nav-logo img{animation:spin-slow 22s linear infinite;}
+    .nav-logo:hover img{animation-play-state:paused;}
   }
   .tilt-a{transform:rotate(-1.6deg);} .tilt-b{transform:rotate(1.4deg);} .tilt-c{transform:rotate(-1deg);} .tilt-d{transform:rotate(1.1deg);}
   .tilt-a,.tilt-b,.tilt-c,.tilt-d{transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;}
@@ -118,7 +120,7 @@
     max-width:1180px; margin:0 auto;
   }
   .nav-logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
-  .nav-logo img{height:44px; width:auto;}
+  .nav-logo img{height:55px; width:55px; object-fit:cover; border-radius:50%;}
   .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
   .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
   .nav-links a{text-decoration:none; color:var(--dark-text-dim); transition:color .15s ease; margin-right:28px;}
@@ -471,7 +473,7 @@
 <header class="site-nav">
   <div class="nav-inner">
     <a href="#top" class="nav-logo">
-      <img src="assets/logo.png" alt="ATL Dart Club logo">
+      <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
       <span>ATL DART CLUB</span>
     </a>
     <nav class="nav-links" id="navLinks">
@@ -873,7 +875,7 @@
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="assets/logo.png" alt="ATL Dart Club logo">
+        <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
       </div>
       <div class="footer-cols">
         <div class="footer-col">
