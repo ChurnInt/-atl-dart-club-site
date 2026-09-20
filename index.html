@@ -801,7 +801,7 @@
         </div>
         <div class="field">
           <label for="phone">Phone</label>
-          <input type="tel" id="phone" name="phone" placeholder="Optional">
+          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" required>
         </div>
 
         <div class="field">
@@ -960,7 +960,11 @@
   }
   function syncEventExtras(){
     toggleExtraFields(birthdayFields, eventType.value === 'Birthday', 'input');
-    toggleExtraFields(corporateFields, eventType.value === 'Corporate / Team Building', '#organizationName');
+    toggleExtraFields(
+      corporateFields,
+      eventType.value === 'Corporate / Team Building' || eventType.value === 'Community Partnership',
+      '#organizationName'
+    );
   }
   eventType.addEventListener('change', syncEventExtras);
   syncEventExtras();
