@@ -25,7 +25,7 @@
     --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; overflow-x:clip;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   body{
     margin:0;
     background:var(--black);
@@ -34,7 +34,7 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    overflow-x:clip;
+    overflow-x:hidden;
     max-width:100%;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -128,8 +128,7 @@
   /* ---------- NAV ---------- */
   header.site-nav{
     position:sticky; top:0; z-index:100;
-    background:rgba(10,10,10,0.92);
-    backdrop-filter:blur(6px);
+    background:rgba(10,10,10,0.94);
     border-bottom:1px solid var(--dark-line);
   }
   .nav-inner{
@@ -542,6 +541,8 @@
       position:fixed;
       top:calc(62px + env(safe-area-inset-top, 0px));
       left:0; right:0; bottom:0;
+      width:100%;
+      min-height:calc(100dvh - 62px);
       background:rgba(10,10,10,0.98);
       flex-direction:column; align-items:stretch;
       padding:12px 24px calc(28px + env(safe-area-inset-bottom, 0px));
