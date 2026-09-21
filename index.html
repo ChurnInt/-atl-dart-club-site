@@ -1192,7 +1192,9 @@
       const current = nearestIndex();
       const looping = (current === 0 && target === slides.length - 1) || (current === slides.length - 1 && target === 0);
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      slides[target].scrollIntoView({behavior: (looping || reduce) ? 'auto' : 'smooth', inline: 'center', block: 'nearest'});
+      const slide = slides[target];
+      const left = slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2;
+      scroller.scrollTo({ left: Math.max(0, left), behavior: (looping || reduce) ? 'auto' : 'smooth' });
       setActive(target);
     }
 
