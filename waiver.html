@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity &amp; Photo Waiver | ATL Dart Club</title>
+<meta name="description" content="Georgia activity waiver and photo/likeness release for ATL Dart Club events. Required for all participants and for any guest under 18.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --black-soft:#141210;
+    --cream:#f5eedc;
+    --cream-dim:#ece2c8;
+    --red:#db0709;
+    --yellow:#fdd02c;
+    --purple:#5a308c;
+    --ink:#171310;
+    --dark-line: rgba(245,238,220,0.14);
+    --dark-text-dim: rgba(245,238,220,0.66);
+    --ink-dim: rgba(23,19,16,0.66);
+    --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--black);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3{font-family:'Anton', sans-serif; text-transform:uppercase; letter-spacing:0.01em; margin:0; line-height:1.02;}
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    font-size:0.78rem;
+    color:var(--yellow);
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.04em; font-size:0.92rem;
+    padding:15px 26px; border-radius:999px; border:3px solid var(--black);
+    cursor:pointer; text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow: var(--shadow-hard);
+  }
+  .btn:active{transform:translate(3px,3px); box-shadow:0 0 0 rgba(0,0,0,0.9);}
+  .btn-primary{background:var(--red); color:var(--cream); border-color:var(--black); position:relative;}
+  .btn-primary:hover{transform:translate(-2px,-2px) rotate(-1deg); box-shadow:9px 9px 0 rgba(0,0,0,0.9);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:var(--cream);}
+  .btn-ghost:hover{background:var(--cream); color:var(--black);}
+  .btn-add{
+    background:transparent; color:var(--yellow); border-color:var(--yellow);
+    padding:10px 16px; font-size:0.8rem; box-shadow:none;
+  }
+  .btn-add:hover{background:var(--yellow); color:var(--black);}
+  .btn-remove{
+    background:transparent; color:var(--cream); border:2px solid rgba(245,238,220,0.35);
+    border-radius:999px; padding:8px 12px; font-size:0.75rem; box-shadow:none;
+    font-family:'Space Grotesk'; font-weight:700; text-transform:uppercase; cursor:pointer;
+  }
+  .btn-remove:hover{border-color:var(--yellow); color:var(--yellow);}
+  :focus-visible{outline:3px solid var(--yellow); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;}
+    .reveal.in-view{opacity:1; transform:translateY(0);}
+    .nav-logo img{animation:spin-slow 22s linear infinite;}
+    .nav-logo:hover img{animation-play-state:paused;}
+  }
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg));} 50%{transform:translateY(-14px) rotate(var(--r,0deg));}}
+
+  .nerf-accent{
+    position:absolute; pointer-events:none; user-select:none; z-index:1;
+    mix-blend-mode:lighten;
+  }
+  .nerf-accent.blaster-red{
+    right:2%; bottom:0;
+    width:min(40vw, 320px);
+    --r:10deg;
+    transform:rotate(var(--r)) scaleX(-1);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .nerf-accent.blaster-red{animation:bob 7.5s ease-in-out infinite;}
+  }
+
+  header.site-nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(10,10,10,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--dark-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px; max-width:1180px; margin:0 auto;
+  }
+  .nav-logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .nav-logo img{height:55px; width:55px; object-fit:cover; border-radius:50%;}
+  .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
+  .nav-links a{
+    display:inline-block; text-decoration:none; color:var(--dark-text-dim); margin-right:28px;
+    transform:scale(1); transform-origin:center bottom;
+    transition:color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
+  .nav-links a:last-child{margin-right:0;}
+  .nav-links a:hover{color:var(--yellow); transform:scale(1.12);}
+  .nav-cta{display:flex; align-items:center;}
+  .nav-cta .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;}
+  .nav-cta .btn:hover{transform:scale(1.1) translate(-2px,-2px) rotate(-1deg);}
+  .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
+  @media (max-width:860px){
+    .nav-links{
+      position:fixed; top:70px; left:0; right:0; bottom:0;
+      background:var(--black); flex-direction:column; align-items:flex-start;
+      padding:28px 24px; gap:22px; font-size:1.1rem;
+      transform:translateX(100%); transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-toggle{display:block;}
+    .nav-cta .btn{padding:10px 16px; font-size:0.8rem;}
+  }
+
+  .waiver-hero{
+    position:relative; overflow:hidden;
+    padding:100px 0 56px;
+    background:
+      radial-gradient(circle at 85% 10%, rgba(219,7,9,0.18), transparent 45%),
+      radial-gradient(circle at 8% 80%, rgba(253,208,44,0.10), transparent 40%),
+      radial-gradient(rgba(245,238,220,0.05) 1.4px, transparent 1.4px) 0 0/22px 22px,
+      var(--black);
+  }
+  .waiver-hero .wrap{position:relative; z-index:2;}
+  .waiver-hero h1{font-size:clamp(2.4rem,5.5vw,3.8rem); color:var(--cream); max-width:16ch;}
+  .waiver-hero h1 .accent{color:var(--red); -webkit-text-stroke:1.5px var(--yellow);}
+  .waiver-hero .lede{
+    font-size:1.12rem; color:var(--yellow); max-width:58ch; margin:22px 0 12px; font-weight:500;
+  }
+  .waiver-hero .sub{
+    font-size:1.02rem; color:var(--dark-text-dim); max-width:62ch; margin:0;
+  }
+
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px;}
+  .pillar{
+    background:var(--black-soft); border:1px solid var(--dark-line);
+    border-radius:18px; padding:22px 20px;
+  }
+  .pillar strong{display:block; font-family:'Space Grotesk'; color:var(--yellow); font-size:0.92rem; margin-bottom:8px;}
+  .pillar p{margin:0; color:var(--dark-text-dim); font-size:0.94rem;}
+  @media (max-width:860px){ .pillars{grid-template-columns:1fr;} }
+
+  section{padding:64px 0;}
+  .section-dark{background:var(--black);}
+  .section-head{max-width:720px; margin-bottom:28px;}
+  .section-head h2{font-size:clamp(1.8rem, 4vw, 2.6rem); margin-top:10px;}
+  .section-dark .section-head p{color:var(--dark-text-dim); margin-top:14px;}
+
+  .legal{
+    background:var(--black-soft);
+    border:1px solid var(--dark-line);
+    border-radius:22px;
+    padding:32px 30px;
+    color:rgba(245,238,220,0.88);
+    font-size:0.98rem;
+  }
+  .legal h3{
+    font-family:'Space Grotesk'; font-size:1.02rem; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--yellow); margin:28px 0 10px; line-height:1.3;
+  }
+  .legal h3:first-child{margin-top:0;}
+  .legal p{margin:0 0 12px;}
+  .legal ul{margin:0 0 12px; padding-left:1.2em; color:var(--dark-text-dim);}
+  .legal li{margin:0 0 6px;}
+  .legal .party{color:var(--cream); font-weight:600;}
+
+  form.waiver-form{
+    margin-top:36px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(90,48,140,0.22), transparent 46%),
+      linear-gradient(165deg, #e30b0e 0%, var(--red) 58%, #9e0824 100%);
+    color:var(--cream);
+    border:3px solid var(--yellow);
+    border-radius:22px; padding:34px;
+    display:grid; grid-template-columns:1fr 1fr; gap:18px;
+    box-shadow: var(--shadow-hard), 0 0 0 1px rgba(90,48,140,0.28), 14px 16px 0 rgba(74,36,120,0.16);
+  }
+  .form-block{
+    grid-column:1 / -1;
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.82rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow);
+    margin:10px 0 0; padding-top:8px; border-top:1px solid rgba(253,208,44,0.28);
+  }
+  .form-block:first-of-type{border-top:0; margin-top:0; padding-top:0;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.full{grid-column:1 / -1;}
+  .field label{font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--yellow);}
+  .hint{font-family:'Work Sans'; font-weight:400; text-transform:none; letter-spacing:0; color:rgba(245,238,220,0.72); font-size:0.8rem;}
+  .field input, .field select, .field textarea{
+    font-family:'Work Sans'; font-size:0.98rem;
+    padding:12px 14px; border-radius:10px;
+    border:2px solid rgba(253,208,44,0.62);
+    background:#fffdf3; color:var(--ink);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color:var(--yellow);
+    box-shadow:0 0 0 3px rgba(90,48,140,0.28);
+    outline:none;
+  }
+  .field textarea{resize:vertical; min-height:90px;}
+  .checks{grid-column:1 / -1; display:flex; flex-direction:column; gap:12px;}
+  .check{
+    display:flex; gap:12px; align-items:flex-start;
+    font-size:0.92rem; color:rgba(245,238,220,0.92); line-height:1.45;
+  }
+  .check input{margin-top:4px; width:18px; height:18px; flex-shrink:0; accent-color:var(--yellow);}
+  .minors-wrap{grid-column:1 / -1; display:flex; flex-direction:column; gap:14px;}
+  .minor-row{
+    display:grid; grid-template-columns:1.4fr 0.7fr 1fr auto; gap:12px; align-items:end;
+    background:rgba(74,36,120,0.18);
+    border:2px dashed rgba(253,208,44,0.5);
+    border-radius:14px; padding:14px;
+  }
+  .minors-empty{grid-column:1 / -1; color:rgba(245,238,220,0.78); font-size:0.92rem; margin:0;}
+  .waiver-form .btn{grid-column:1 / -1; justify-self:start; margin-top:6px;}
+  .waiver-form .btn-primary{background:var(--yellow); color:var(--black);}
+  .form-note{grid-column:1/-1; font-size:0.82rem; color:rgba(245,238,220,0.78); margin:0;}
+  .form-error{
+    display:none; grid-column:1/-1; color:var(--yellow);
+    font-family:'Space Grotesk'; font-weight:600; font-size:0.88rem;
+  }
+  .form-error.show{display:block;}
+  .form-success{
+    display:none; grid-column:1/-1; background:var(--yellow); color:var(--black);
+    padding:18px 20px; border-radius:14px; font-family:'Space Grotesk'; font-weight:600; font-size:0.95rem;
+  }
+  .form-success.show{display:block;}
+  .hp{position:absolute; left:-9999px; height:0; width:0; overflow:hidden;}
+  @media (max-width:860px){
+    form.waiver-form{grid-template-columns:1fr; padding:26px;}
+    .minor-row{grid-template-columns:1fr;}
+  }
+
+  footer{background:var(--black-soft); border-top:1px solid var(--dark-line); padding:52px 0 28px;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; margin-bottom:36px;}
+  .footer-logo img{height:52px;}
+  .footer-cols{display:flex; gap:56px; flex-wrap:wrap;}
+  .footer-col h5{font-family:'Space Grotesk'; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow); margin:0 0 12px;}
+  .footer-col a, .footer-col span{display:block; font-size:0.92rem; color:var(--dark-text-dim); text-decoration:none; margin-bottom:8px;}
+  .footer-col a:hover{color:var(--cream);}
+  .footer-bottom{border-top:1px solid var(--dark-line); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem; color:rgba(245,238,220,0.45); font-family:'Space Grotesk';}
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
+      <span>ATL DART CLUB</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#services">Corporate</a>
+      <a href="index.html#services">Birthdays</a>
+      <a href="index.html#in-action">See It In Action</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#battles">Recent Battles</a>
+      <a href="events.html">Events</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#sign" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Sign the Waiver</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="waiver-hero">
+    <img class="nerf-accent blaster-red" src="assets/blaster-red.png" alt="" aria-hidden="true">
+    <div class="wrap">
+      <p class="eyebrow">Required before play · Georgia</p>
+      <h1>ACTIVITY &amp;<br><span class="accent">PHOTO</span> WAIVER</h1>
+      <p class="lede">ATL Dart Club is a family-friendly company. We prioritize fun, safe play, and an inclusive environment for every booking.</p>
+      <p class="sub">This form covers the activity waiver and the photo/likeness release needed to participate. One adult (18+) completes it for themselves and lists anyone under 18 they are bringing. Please read it, then sign below. Submissions go straight to ATL Dart Club.</p>
+      <div class="pillars">
+        <div class="pillar">
+          <strong>Fun, safe, inclusive</strong>
+          <p>We will do everything we can to run a hosted, family-friendly Nerf battle that is welcoming and well refereed.</p>
+        </div>
+        <div class="pillar">
+          <strong>This is active play</strong>
+          <p>People run, duck, and fire foam darts. Injury is possible even when everyone is careful and following the rules.</p>
+        </div>
+        <div class="pillar">
+          <strong>You release liability</strong>
+          <p>By signing, you agree ATL Dart Club, a company of Turner Interactive, LLC, will not be held liable for ordinary risks of this activity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Please read in full</p>
+        <h2>Georgia activity waiver &amp; photo release.</h2>
+        <p>This agreement is given under the laws of the State of Georgia. Completing the form is required to participate in any ATL Dart Club event.</p>
+      </div>
+
+      <article class="legal reveal" id="agreement">
+        <h3>1. Released parties</h3>
+        <p>This waiver is given to <span class="party">ATL Dart Club</span>, a company of <span class="party">Turner Interactive, LLC</span>, and to their owners, officers, members, employees, contractors, volunteers, hosts, sponsors, and any venue or property owner where an event is held (together, the “Released Parties”).</p>
+
+        <h3>2. Who we are and how we run events</h3>
+        <p>ATL Dart Club is a family-friendly Nerf entertainment company. We prioritize fun, safe play, and an inclusive environment. Our crew hosts the experience, supplies gear, sets game rules, and referees play. We will do all that we reasonably can to keep the event organized and welcoming. That commitment does not mean the activity is free of risk.</p>
+
+        <h3>3. The activity</h3>
+        <p>I understand that ATL Dart Club events are physical, active Nerf battles and related games. They may include running, jumping, crouching, sudden direction changes, foam darts, blasters, barriers, outdoor or indoor surfaces, weather, other participants, and hosted game modes. Events may take place at parks, gyms, offices, churches, backyards, or other sites chosen by the client or ADC.</p>
+
+        <h3>4. Assumption of risk</h3>
+        <p>I know this is active recreation. The potential for injury is real. Risks include, without limitation: being struck by foam darts or equipment; trips, slips, and falls; collisions with people, barriers, or the ground; sprains, strains, bruises, cuts, dental injury, eye injury, broken bones, heat-related illness, allergic reactions, and in rare cases more serious injury or death. I voluntarily assume all risks of participating, whether those risks are known or unknown, and whether they arise from my own actions, the actions of other participants, the condition of the site, or the ordinary operation of the event.</p>
+
+        <h3>5. Release of liability (Georgia)</h3>
+        <p>In return for being allowed to participate, I hereby release, waive, and forever discharge the Released Parties from any and all claims, demands, and causes of action for personal injury, property damage, or other loss arising out of or related to ATL Dart Club events, including claims based on the ordinary negligence of the Released Parties, to the fullest extent permitted by the laws of the State of Georgia.</p>
+        <p>I agree that ATL Dart Club, a company of Turner Interactive, LLC, will not be held liable for injuries or losses connected to this activity, except to the extent Georgia law does not allow a release (including, where applicable, gross negligence, willful misconduct, or wanton conduct). I intend this release to be as broad and inclusive as Georgia law allows. If any part is held unenforceable, the rest remains in effect.</p>
+
+        <h3>6. Indemnification</h3>
+        <p>I agree to indemnify, defend, and hold harmless the Released Parties from any claim, loss, or expense (including reasonable attorneys’ fees) arising from my participation, a listed minor’s participation, or my breach of this agreement, to the fullest extent permitted by Georgia law.</p>
+
+        <h3>7. Health, medical care, and emergency contact</h3>
+        <p>I confirm that I (and each listed minor) am/are physically able to take part in active play. I will tell ADC staff about any condition, allergy, or limitation that could affect safe participation. If I am injured, I authorize the Released Parties to obtain emergency medical care. I understand I am responsible for medical costs. ADC does not provide personal health insurance.</p>
+
+        <h3>8. Rules, gear, and family-friendly conduct</h3>
+        <p>I will follow all ADC safety rules, referee instructions, and equipment guidelines, including eye protection when required. I will not aim at faces at close range, alter gear, or bring outside blasters unless ADC staff approve them. ADC may remove anyone who creates an unsafe or unwelcome environment. We are a family-friendly company; abusive, harassing, or unsafe conduct is not allowed.</p>
+
+        <h3>9. Photo, video, and likeness release</h3>
+        <p>ADC photographs and records events. I grant ATL Dart Club and Turner Interactive, LLC a perpetual, royalty-free, worldwide right to use my name, voice, image, and likeness — and those of each listed minor — in photos, video, and audio from events, in any media, for marketing, social, website, press, and promotional purposes. I waive any right to inspect or approve finished uses and any claim for compensation or for invasion of privacy related to those uses.</p>
+
+        <h3>10. Adults and participants under 18</h3>
+        <p>Only a parent or legal guardian who is 18 or older may sign for a person under 18. By listing a minor below, I represent that I have legal authority to do so. To the fullest extent Georgia law allows, I sign this waiver on that minor’s behalf, I release the Released Parties from claims I could bring as parent or guardian, and I agree to indemnify the Released Parties against claims brought by or on behalf of that minor.</p>
+
+        <h3>11. Electronic signature and governing law</h3>
+        <p>I agree that typing my legal name below is my electronic signature under the Georgia Uniform Electronic Transactions Act (O.C.G.A. § 10-12-1 et seq.) and has the same effect as a handwritten signature. This agreement is governed by the laws of the State of Georgia, without regard to conflict-of-law rules. I consent to exclusive venue in the state courts of DeKalb County, Georgia. This is the entire agreement on these subjects. It binds my heirs, family, and legal representatives.</p>
+        <p>I have had a chance to read this document, ask questions, and choose not to participate. I am signing it freely.</p>
+      </article>
+
+      <form class="waiver-form reveal" id="waiverForm">
+        <div class="form-success" id="formSuccess">Waiver received. You’re cleared for play — we’ll keep this on file for your event. If you listed anyone under 18, they are covered under your signature.</div>
+        <p class="form-error" id="formError" role="alert"></p>
+        <input type="hidden" name="_subject" value="New ATL Dart Club activity & photo waiver">
+        <input type="hidden" name="form_name" value="Activity & Photo Waiver (Georgia)">
+        <input type="hidden" name="waiver_version" value="GA-2026-09">
+        <input type="hidden" name="released_party" value="ATL Dart Club, a company of Turner Interactive, LLC">
+        <input type="hidden" name="minors_listed" id="minorsListed" value="None listed">
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <p class="form-block" id="sign">Adult signer (18+)</p>
+        <div class="field">
+          <label for="legalName">Full legal name</label>
+          <input type="text" id="legalName" name="legal_name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="dob">Date of birth <span class="hint">Must be 18 or older</span></label>
+          <input type="date" id="dob" name="date_of_birth" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" autocomplete="tel" required>
+        </div>
+        <div class="field full">
+          <label for="address">Street address</label>
+          <input type="text" id="address" name="address" autocomplete="street-address" required>
+        </div>
+        <div class="field">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" autocomplete="address-level2" required>
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" value="GA" maxlength="2" required>
+        </div>
+        <div class="field">
+          <label for="zip">ZIP</label>
+          <input type="text" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" required>
+        </div>
+        <div class="field">
+          <label for="adultPlay">Are you playing too?</label>
+          <select id="adultPlay" name="adult_participating" required>
+            <option value="Yes — I am participating">Yes — I am participating</option>
+            <option value="No — I am only signing for minors">No — I am only signing for minors</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="eventDate">Event date <span class="hint">If you know it</span></label>
+          <input type="date" id="eventDate" name="event_date">
+        </div>
+        <div class="field full">
+          <label for="eventNotes">Event name or group <span class="hint">Optional — helps us match this to a booking</span></label>
+          <input type="text" id="eventNotes" name="event_name" placeholder="Birthday, company name, or host’s name">
+        </div>
+
+        <p class="form-block">Emergency contact</p>
+        <div class="field">
+          <label for="emergencyName">Emergency contact name</label>
+          <input type="text" id="emergencyName" name="emergency_contact_name" required>
+        </div>
+        <div class="field">
+          <label for="emergencyPhone">Emergency contact phone</label>
+          <input type="tel" id="emergencyPhone" name="emergency_contact_phone" required>
+        </div>
+        <div class="field full">
+          <label for="medical">Allergies, medical notes, or limits we should know</label>
+          <textarea id="medical" name="medical_notes" placeholder="Leave blank if none. Include notes for yourself and any listed minors."></textarea>
+        </div>
+
+        <p class="form-block">Anyone under 18</p>
+        <p class="minors-empty" id="minorsEmpty">No minors listed yet. If you are bringing kids or teens, add each one here. Your signature covers them.</p>
+        <div class="minors-wrap" id="minorsWrap"></div>
+        <div class="field full">
+          <button type="button" class="btn btn-add" id="addMinor">+ Add a participant under 18</button>
+        </div>
+        <div class="checks" id="minorAuthWrap" hidden>
+          <label class="check">
+            <input type="checkbox" id="minorAuth" name="minor_authority" value="Yes">
+            <span>I am the parent or legal guardian of each person under 18 listed above, I have authority to sign this waiver for them, and I agree to the minor terms in Section 10.</span>
+          </label>
+        </div>
+
+        <p class="form-block">Agreements</p>
+        <div class="checks">
+          <label class="check">
+            <input type="checkbox" name="confirm_age" value="I am 18 or older" required>
+            <span>I am 18 years of age or older.</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="agree_activity_waiver" value="Agreed to Georgia activity waiver and release" required>
+            <span>I have read and agree to the Georgia Activity Waiver, Assumption of Risk, Release of Liability, and Indemnification above. I understand ATL Dart Club, a company of Turner Interactive, LLC, will not be held liable as described there.</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="agree_photo_release" value="Agreed to photo and likeness release" required>
+            <span>I have read and agree to the Photo, Video, and Likeness Release for myself and any listed minor.</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="agree_rules" value="Agreed to family-friendly safe play rules" required>
+            <span>I understand ADC is a family-friendly company that prioritizes fun, safe play, and I will follow staff rules and referee calls.</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="agree_electronic_signature" value="Electronic signature under Georgia UETA" required>
+            <span>I understand that typing my legal name is my electronic signature under Georgia law and is legally binding.</span>
+          </label>
+        </div>
+
+        <p class="form-block">Sign</p>
+        <div class="field">
+          <label for="signature">Type your full legal name as your signature</label>
+          <input type="text" id="signature" name="electronic_signature" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="signedDate">Date signed</label>
+          <input type="date" id="signedDate" name="date_signed" required>
+        </div>
+        <p class="form-note">Submitting this form emails ATL Dart Club and records your waiver. Keep a copy of the email confirmation if Formspree sends you one.</p>
+        <button type="submit" class="btn btn-primary">Submit Waiver</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="index.html#services">Corporate</a>
+          <a href="index.html#services">Birthdays</a>
+          <a href="index.html#pricing">Pricing</a>
+          <a href="index.html#battles">Recent Battles</a>
+          <a href="events.html">Upcoming Events</a>
+        </div>
+        <div class="footer-col">
+          <h5>Get in touch</h5>
+          <a href="index.html#book">Request to Book</a>
+          <a href="waiver.html">Activity &amp; Photo Waiver</a>
+          <a href="mailto:churinteractive@gmail.com">churinteractive@gmail.com</a>
+          <span>Decatur &amp; Atlanta, GA</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ATL Dart Club · Turner Interactive, LLC. All rights reserved.</span>
+      <span>Nerf As A Service™</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  const dob = document.getElementById('dob');
+  const signedDate = document.getElementById('signedDate');
+  const today = new Date();
+  const isoToday = today.toISOString().slice(0, 10);
+  const adultCutoff = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+  dob.max = adultCutoff;
+  signedDate.value = isoToday;
+  signedDate.max = isoToday;
+
+  const minorsWrap = document.getElementById('minorsWrap');
+  const minorsEmpty = document.getElementById('minorsEmpty');
+  const minorsListed = document.getElementById('minorsListed');
+  const minorAuthWrap = document.getElementById('minorAuthWrap');
+  const minorAuth = document.getElementById('minorAuth');
+  let minorCount = 0;
+
+  function syncMinors(){
+    const rows = [...minorsWrap.querySelectorAll('.minor-row')];
+    minorsEmpty.hidden = rows.length > 0;
+    minorAuthWrap.hidden = rows.length === 0;
+    minorAuth.required = rows.length > 0;
+    if (!rows.length) minorAuth.checked = false;
+    const lines = rows.map((row, i) => {
+      const name = row.querySelector('[data-f="name"]').value.trim() || '(unnamed)';
+      const age = row.querySelector('[data-f="age"]').value.trim() || '?';
+      const rel = row.querySelector('[data-f="rel"]').value.trim() || 'guardian';
+      return (i + 1) + '. ' + name + ', age ' + age + ', ' + rel;
+    });
+    minorsListed.value = lines.length ? lines.join(' | ') : 'None listed';
+  }
+
+  function addMinor(){
+    minorCount += 1;
+    const id = minorCount;
+    const row = document.createElement('div');
+    row.className = 'minor-row';
+    row.innerHTML =
+      '<div class="field"><label for="minorName' + id + '">Minor’s full name</label>' +
+      '<input type="text" id="minorName' + id + '" name="minor_' + id + '_name" data-f="name" required></div>' +
+      '<div class="field"><label for="minorAge' + id + '">Age</label>' +
+      '<input type="number" id="minorAge' + id + '" name="minor_' + id + '_age" data-f="age" min="0" max="17" inputmode="numeric" required></div>' +
+      '<div class="field"><label for="minorRel' + id + '">Your relationship</label>' +
+      '<input type="text" id="minorRel' + id + '" name="minor_' + id + '_relationship" data-f="rel" placeholder="Parent, guardian…" required></div>' +
+      '<button type="button" class="btn-remove" aria-label="Remove this minor">Remove</button>';
+    row.querySelector('.btn-remove').addEventListener('click', () => {
+      row.remove();
+      syncMinors();
+    });
+    row.querySelectorAll('input').forEach(el => el.addEventListener('input', syncMinors));
+    minorsWrap.appendChild(row);
+    syncMinors();
+    row.querySelector('input').focus();
+  }
+  document.getElementById('addMinor').addEventListener('click', addMinor);
+
+  function yearsOld(iso){
+    if (!iso) return 0;
+    const d = new Date(iso + 'T00:00:00');
+    let age = today.getFullYear() - d.getFullYear();
+    const m = today.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age -= 1;
+    return age;
+  }
+
+  const form = document.getElementById('waiverForm');
+  const formSuccess = document.getElementById('formSuccess');
+  const formError = document.getElementById('formError');
+  const legalName = document.getElementById('legalName');
+  const signature = document.getElementById('signature');
+  const adultPlay = document.getElementById('adultPlay');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formError.classList.remove('show');
+    formError.textContent = '';
+    syncMinors();
+
+    if (yearsOld(dob.value) < 18) {
+      formError.textContent = 'The signer must be 18 or older. A parent or guardian has to complete this form.';
+      formError.classList.add('show');
+      dob.focus();
+      return;
+    }
+    const nameNorm = legalName.value.trim().replace(/\s+/g, ' ').toLowerCase();
+    const sigNorm = signature.value.trim().replace(/\s+/g, ' ').toLowerCase();
+    if (!sigNorm || sigNorm !== nameNorm) {
+      formError.textContent = 'Your signature must match your full legal name.';
+      formError.classList.add('show');
+      signature.focus();
+      return;
+    }
+    const minorRows = minorsWrap.querySelectorAll('.minor-row');
+    if (adultPlay.value.indexOf('only signing') !== -1 && !minorRows.length) {
+      formError.textContent = 'Add at least one participant under 18, or choose that you are participating too.';
+      formError.classList.add('show');
+      return;
+    }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (form.querySelector('[name="_gotcha"]')?.value) return;
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://formspree.io/f/mppwpwzg', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      });
+      if (!res.ok) throw new Error('Formspree error');
+      formSuccess.classList.add('show');
+      form.querySelectorAll('input, select, textarea, button').forEach((el) => { if (el.type !== 'hidden') el.disabled = true; });
+      submitBtn.textContent = 'Waiver submitted';
+      formSuccess.scrollIntoView({behavior:'smooth', block:'center'});
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Waiver';
+      formError.textContent = 'Could not send. Check your connection and try again, or email churinteractive@gmail.com.';
+      formError.classList.add('show');
+    }
+  });
+</script>
+
+</body>
+</html>
