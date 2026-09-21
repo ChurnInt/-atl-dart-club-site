@@ -333,7 +333,6 @@
     display:flex; gap:22px;
     overflow-x:auto;
     scroll-snap-type:x mandatory;
-    scroll-behavior:smooth;
     padding:10px 48px 22px;
     scrollbar-color: var(--yellow) transparent;
   }
@@ -689,7 +688,7 @@
         <div class="service-card priority reveal tilt-a">
           <span class="tag">Corporate</span>
           <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="#fdd02c"/></svg>
-          <h3>Organizational Team Building</h3>
+          <h3>Organizational NAAS</h3>
           <p>The ideal way to build team cohesion and create a positive jolt of energy among your staff — a one-of-a-kind Nerf battle training experience for offsites, retreats, and company days.</p>
         </div>
         <div class="service-card reveal reveal-1 tilt-b">
@@ -1189,12 +1188,33 @@
 
     function goTo(i){
       const target = wrapIndex(i);
-      const current = nearestIndex();
-      const looping = (current === 0 && target === slides.length - 1) || (current === slides.length - 1 && target === 0);
+      const from = current < 0 ? nearestIndex() : current;
+      const looping = (from === 0 && target === slides.length - 1) || (from === slides.length - 1 && target === 0);
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const slide = slides[target];
-      const left = slide.offsetLeft - (scroller.clientWidth - slide.offsetWidth) / 2;
-      scroller.scrollTo({ left: Math.max(0, left), behavior: (looping || reduce) ? 'auto' : 'smooth' });
+      const jump = looping || reduce;
+      let left;
+      if (target === 0) {
+        left = 0;
+      } else if (target === slides.length - 1) {
+        left = scroller.scrollWidth - scroller.clientWidth;
+      } else {
+        const slide = slides[target];
+        const sRect = scroller.getBoundingClientRect();
+        const tRect = slide.getBoundingClientRect();
+        left = scroller.scrollLeft + (tRect.left - sRect.left) - (scroller.clientWidth - tRect.width) / 2;
+      }
+      left = Math.max(0, left);
+      if (jump) {
+        scroller.style.scrollSnapType = 'none';
+        scroller.style.scrollBehavior = 'auto';
+        scroller.scrollLeft = left;
+        requestAnimationFrame(() => {
+          scroller.style.scrollSnapType = '';
+          scroller.style.scrollBehavior = '';
+        });
+      } else {
+        scroller.scrollTo({ left: left, behavior: 'smooth' });
+      }
       setActive(target);
     }
 
@@ -1205,8 +1225,8 @@
       requestAnimationFrame(() => { setActive(nearestIndex()); ticking = false; });
     }, {passive: true});
 
-    prev.addEventListener('click', () => goTo(nearestIndex() - 1));
-    next.addEventListener('click', () => goTo(nearestIndex() + 1));
+    prev.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
     scroller.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') { e.preventDefault(); prev.click(); }
       if (e.key === 'ArrowRight') { e.preventDefault(); next.click(); }
