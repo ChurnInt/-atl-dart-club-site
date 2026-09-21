@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ATL Dart Club — Nerf As A Service | Decatur &amp; Atlanta</title>
 <meta name="description" content="Full-service mobile Nerf battle experiences for corporate team days, birthdays, and pop-ups across Decatur & Atlanta. We bring the gear, run the games — you bring the crowd.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
     --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:clip;}
   body{
     margin:0;
     background:var(--black);
@@ -35,7 +35,12 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:clip;
+    max-width:100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
+  body.nav-open{overflow:hidden;}
   img{max-width:100%; display:block;}
   a{color:inherit;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
@@ -492,9 +497,10 @@
   .field label{font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em;}
   .book-form .field label{color:var(--yellow);}
   .field input, .field select, .field textarea{
-    font-family:'Work Sans'; font-size:0.98rem;
+    font-family:'Work Sans'; font-size:16px;
     padding:12px 14px; border-radius:10px; border:2px solid rgba(23,19,16,0.18);
     background:#fff; color:var(--ink);
+    min-height:44px; width:100%;
   }
   .book-form .field input, .book-form .field select, .book-form .field textarea{
     background:#fffdf3;
@@ -560,6 +566,95 @@
 
   /* utility */
   .center-cta{text-align:center; margin-top:44px;}
+  .nav-mobile-cta{display:none;}
+
+  @media (max-width:860px){
+    .wrap{padding:0 16px;}
+    .nav-inner{
+      padding:8px 16px;
+      padding-left:max(16px, env(safe-area-inset-left));
+      padding-right:max(16px, env(safe-area-inset-right));
+    }
+    header.site-nav{padding-top:env(safe-area-inset-top, 0px);}
+    .nav-logo span{display:inline; font-size:0.78rem; letter-spacing:0.06em;}
+    .nav-logo img{height:46px; width:46px;}
+    .nav-cta{display:none;}
+    .nav-toggle{
+      display:flex; align-items:center; justify-content:center;
+      width:44px; height:44px; font-size:1.45rem; padding:0; flex-shrink:0;
+    }
+    .nav-links{
+      position:fixed;
+      top:calc(62px + env(safe-area-inset-top, 0px));
+      left:0; right:0; bottom:0;
+      background:rgba(10,10,10,0.98);
+      flex-direction:column; align-items:stretch;
+      padding:12px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      gap:0; font-size:1.15rem;
+      transform:translateX(100%);
+      transition:transform .25s ease, visibility .25s ease;
+      overflow-y:auto; z-index:99;
+      visibility:hidden; pointer-events:none;
+    }
+    .nav-links a{
+      margin-right:0; padding:16px 0;
+      border-bottom:1px solid var(--dark-line);
+      transform:none; min-height:48px;
+    }
+    .nav-links a:hover{transform:none;}
+    .nav-links.open{transform:translateX(0); visibility:visible; pointer-events:auto;}
+    .nav-mobile-cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      margin-top:22px; padding:14px 22px; border-radius:999px;
+      background:var(--red); color:var(--cream) !important;
+      border:3px solid var(--black); font-size:0.92rem;
+      box-shadow: var(--shadow-hard); border-bottom:3px solid var(--black) !important;
+    }
+    .hero{padding:48px 0 40px;}
+    .hero-grid{grid-template-columns:1fr; gap:20px;}
+    .hero-mark{order:-1; margin-bottom:4px;}
+    .hero-mark img{max-width:240px;}
+    .hero-rings{width:280px; height:280px; right:-80px; top:-80px;}
+    .hero-ctas .btn{width:100%; justify-content:center;}
+    .hero-meta{flex-direction:column; gap:10px;}
+    .hero-meta span{margin-right:0;}
+    section{padding:56px 0;}
+    .carousel-scroller{
+      padding:8px 8px 18px;
+      -webkit-overflow-scrolling:touch;
+      overscroll-behavior-x:contain;
+      scroll-padding-inline:8px;
+    }
+    .carousel-slide{flex-basis:min(100%, 100vw - 48px);}
+    .carousel-btn{width:44px; height:44px; font-size:1.5rem;}
+    .carousel-btn.prev{left:2px;}
+    .carousel-btn.next{right:2px;}
+    .carousel-dot{width:14px; height:14px;}
+    form.book-form{grid-template-columns:1fr; padding:22px 16px;}
+    .book-grid{grid-template-columns:1fr; gap:28px;}
+    .birthday-fields, .extra-fields{grid-template-columns:1fr; padding:14px 12px;}
+    .book-form .btn, .price-ticket .btn{width:100%; justify-content:center;}
+    .service-card, .price-ticket{padding:24px 20px;}
+    .footer-top, .footer-bottom{flex-direction:column; gap:18px;}
+    .footer-cols{gap:28px;}
+    .btn{min-height:48px;}
+  }
+  @media (max-width:480px){
+    .hero h1{font-size:clamp(2.5rem, 14vw, 3.4rem);}
+    .hero-sub{font-size:1.05rem; margin:16px 0 24px;}
+    .battles-grid{grid-template-columns:1fr 1fr; gap:12px;}
+    .nerf-accent.blaster-red, .nerf-accent.blaster-blue{opacity:0.35;}
+    .dart-divider svg{height:36px;}
+  }
+  @media (hover:none){
+    .btn-primary:hover, .btn-ghost:hover, .btn-dark:hover, .nav-cta .btn:hover{
+      transform:none; box-shadow:var(--shadow-hard);
+    }
+    .btn-primary:hover::after{opacity:0;}
+    .nav-links a:hover{transform:none;}
+    .tilt-a:hover, .tilt-b:hover, .tilt-c:hover, .tilt-d:hover{transform:none;}
+    .service-card:hover, .battle-tile:hover, .price-ticket:hover{transform:none;}
+  }
 </style>
 </head>
 <body>
@@ -577,11 +672,12 @@
       <a href="#pricing">Pricing</a>
       <a href="#battles">Recent Battles</a>
       <a href="events.html">Events</a>
+      <a href="#book" class="nav-mobile-cta">Request to Book</a>
     </nav>
     <div class="nav-cta">
       <a href="#book" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Request to Book</a>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">☰</button>
   </div>
 </header>
 
@@ -1093,12 +1189,16 @@
   // mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
+  function setNav(open){
+    navLinks.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    navToggle.textContent = open ? '✕' : '☰';
+  }
+  navToggle.addEventListener('click', () => setNav(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNav(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
 
   // scroll-reveal for cards & section content
   const revealEls = document.querySelectorAll('.reveal');

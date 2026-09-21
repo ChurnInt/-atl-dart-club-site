@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Activity &amp; Photo Waiver | ATL Dart Club</title>
 <meta name="description" content="Georgia activity waiver and photo/likeness release for ATL Dart Club events. Required for all participants and for any guest under 18.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
     --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:clip;}
   body{
     margin:0;
     background:var(--black);
@@ -33,7 +33,12 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:clip;
+    max-width:100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
+  body.nav-open{overflow:hidden;}
   img{max-width:100%; display:block;}
   a{color:inherit;}
   .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
@@ -208,10 +213,11 @@
   .field label{font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--yellow);}
   .hint{font-family:'Work Sans'; font-weight:400; text-transform:none; letter-spacing:0; color:rgba(245,238,220,0.72); font-size:0.8rem;}
   .field input, .field select, .field textarea{
-    font-family:'Work Sans'; font-size:0.98rem;
+    font-family:'Work Sans'; font-size:16px;
     padding:12px 14px; border-radius:10px;
     border:2px solid rgba(253,208,44,0.62);
     background:#fffdf3; color:var(--ink);
+    min-height:44px; width:100%;
   }
   .field input:focus, .field select:focus, .field textarea:focus{
     border-color:var(--yellow);
@@ -261,6 +267,69 @@
   .footer-col a, .footer-col span{display:block; font-size:0.92rem; color:var(--dark-text-dim); text-decoration:none; margin-bottom:8px;}
   .footer-col a:hover{color:var(--cream);}
   .footer-bottom{border-top:1px solid var(--dark-line); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem; color:rgba(245,238,220,0.45); font-family:'Space Grotesk';}
+  .nav-mobile-cta{display:none;}
+  .check input{min-width:22px; min-height:22px;}
+  @media (max-width:860px){
+    .wrap{padding:0 16px;}
+    .nav-inner{
+      padding:8px 16px;
+      padding-left:max(16px, env(safe-area-inset-left));
+      padding-right:max(16px, env(safe-area-inset-right));
+    }
+    header.site-nav{padding-top:env(safe-area-inset-top, 0px);}
+    .nav-logo span{display:inline; font-size:0.78rem; letter-spacing:0.06em;}
+    .nav-logo img{height:46px; width:46px;}
+    .nav-cta{display:none;}
+    .nav-toggle{
+      display:flex; align-items:center; justify-content:center;
+      width:44px; height:44px; font-size:1.45rem; padding:0; flex-shrink:0;
+    }
+    .nav-links{
+      position:fixed;
+      top:calc(62px + env(safe-area-inset-top, 0px));
+      left:0; right:0; bottom:0;
+      background:rgba(10,10,10,0.98);
+      flex-direction:column; align-items:stretch;
+      padding:12px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      gap:0; font-size:1.15rem;
+      transform:translateX(100%);
+      transition:transform .25s ease, visibility .25s ease;
+      overflow-y:auto; z-index:99;
+      visibility:hidden; pointer-events:none;
+    }
+    .nav-links a{
+      margin-right:0; padding:16px 0;
+      border-bottom:1px solid var(--dark-line);
+      transform:none; min-height:48px;
+    }
+    .nav-links a:hover{transform:none;}
+    .nav-links.open{transform:translateX(0); visibility:visible; pointer-events:auto;}
+    .nav-mobile-cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      margin-top:22px; padding:14px 22px; border-radius:999px;
+      background:var(--red); color:var(--cream) !important;
+      border:3px solid var(--black); font-size:0.92rem;
+      box-shadow: var(--shadow-hard); border-bottom:3px solid var(--black) !important;
+    }
+    .waiver-hero{padding:48px 0 36px;}
+    .waiver-hero h1{font-size:clamp(2.1rem, 11vw, 3rem);}
+    .waiver-hero .lede{font-size:1.02rem;}
+    section{padding:48px 0;}
+    .legal{padding:22px 18px; font-size:0.95rem;}
+    form.waiver-form{grid-template-columns:1fr; padding:22px 16px;}
+    .minor-row{grid-template-columns:1fr; padding:14px 12px;}
+    .waiver-form .btn, .btn-add{width:100%; justify-content:center;}
+    .footer-top, .footer-bottom{flex-direction:column; gap:18px;}
+    .footer-cols{gap:28px;}
+    .btn{min-height:48px;}
+  }
+  @media (max-width:480px){
+    .nerf-accent.blaster-red{opacity:0.35; width:min(70vw, 200px);}
+  }
+  @media (hover:none){
+    .btn-primary:hover, .nav-cta .btn:hover{transform:none; box-shadow:var(--shadow-hard);}
+    .nav-links a:hover{transform:none;}
+  }
 </style>
 </head>
 <body>
@@ -278,11 +347,12 @@
       <a href="index.html#pricing">Pricing</a>
       <a href="index.html#battles">Recent Battles</a>
       <a href="events.html">Events</a>
+      <a href="#sign" class="nav-mobile-cta">Sign the Waiver</a>
     </nav>
     <div class="nav-cta">
       <a href="#sign" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Sign the Waiver</a>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">☰</button>
   </div>
 </header>
 
@@ -518,8 +588,16 @@
 <script>
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  function setNav(open){
+    navLinks.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    navToggle.textContent = open ? '✕' : '☰';
+  }
+  navToggle.addEventListener('click', () => setNav(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNav(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
 
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealEls.length) {
