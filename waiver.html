@@ -219,6 +219,7 @@
     outline:none;
   }
   .field textarea{resize:vertical; min-height:90px;}
+  .field input[readonly]{background:#ece6d2; cursor:default;}
   .checks{grid-column:1 / -1; display:flex; flex-direction:column; gap:12px;}
   .check{
     display:flex; gap:12px; align-items:flex-start;
@@ -369,7 +370,7 @@
         <p class="form-block" id="sign">Adult signer (18+)</p>
         <div class="field">
           <label for="legalName">Full legal name</label>
-          <input type="text" id="legalName" name="legal_name" autocomplete="name" required>
+          <input type="text" id="legalName" name="legal_name" autocomplete="name" minlength="2" maxlength="80" required>
         </div>
         <div class="field">
           <label for="dob">Date of birth <span class="hint">Must be 18 or older</span></label>
@@ -377,27 +378,27 @@
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" autocomplete="email" required>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="120" required>
         </div>
         <div class="field">
           <label for="phone">Phone</label>
-          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" autocomplete="tel" required>
+          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" autocomplete="tel" inputmode="tel" pattern="^\(\d{3}\) \d{3}-\d{4}$" title="Enter a 10-digit US phone number" maxlength="14" required>
         </div>
         <div class="field full">
           <label for="address">Street address</label>
-          <input type="text" id="address" name="address" autocomplete="street-address" required>
+          <input type="text" id="address" name="address" autocomplete="street-address" maxlength="120" required>
         </div>
         <div class="field">
           <label for="city">City</label>
-          <input type="text" id="city" name="city" autocomplete="address-level2" required>
+          <input type="text" id="city" name="city" autocomplete="address-level2" maxlength="80" required>
         </div>
         <div class="field">
           <label for="state">State</label>
-          <input type="text" id="state" name="state" value="GA" maxlength="2" required>
+          <input type="text" id="state" name="state" value="GA" maxlength="2" minlength="2" pattern="[A-Za-z]{2}" title="Two-letter state code" autocomplete="address-level1" required>
         </div>
         <div class="field">
           <label for="zip">ZIP</label>
-          <input type="text" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" required>
+          <input type="text" id="zip" name="zip" inputmode="numeric" pattern="\d{5}(-\d{4})?" title="5-digit ZIP code" maxlength="10" autocomplete="postal-code" required>
         </div>
         <div class="field">
           <label for="adultPlay">Are you playing too?</label>
@@ -412,17 +413,17 @@
         </div>
         <div class="field full">
           <label for="eventNotes">Event name or group <span class="hint">Optional — helps us match this to a booking</span></label>
-          <input type="text" id="eventNotes" name="event_name" placeholder="Birthday, company name, or host’s name">
+          <input type="text" id="eventNotes" name="event_name" placeholder="Birthday, company name, or host’s name" maxlength="120">
         </div>
 
         <p class="form-block">Emergency contact</p>
         <div class="field">
           <label for="emergencyName">Emergency contact name</label>
-          <input type="text" id="emergencyName" name="emergency_contact_name" required>
+          <input type="text" id="emergencyName" name="emergency_contact_name" maxlength="80" required>
         </div>
         <div class="field">
           <label for="emergencyPhone">Emergency contact phone</label>
-          <input type="tel" id="emergencyPhone" name="emergency_contact_phone" required>
+          <input type="tel" id="emergencyPhone" name="emergency_contact_phone" placeholder="(404) 555-1234" inputmode="tel" pattern="^\(\d{3}\) \d{3}-\d{4}$" title="Enter a 10-digit US phone number" maxlength="14" required>
         </div>
         <div class="field full">
           <label for="medical">Allergies, medical notes, or limits we should know</label>
@@ -469,11 +470,11 @@
         <p class="form-block">Sign</p>
         <div class="field">
           <label for="signature">Type your full legal name as your signature</label>
-          <input type="text" id="signature" name="electronic_signature" autocomplete="off" required>
+          <input type="text" id="signature" name="electronic_signature" autocomplete="off" minlength="2" maxlength="80" required>
         </div>
         <div class="field">
           <label for="signedDate">Date signed</label>
-          <input type="date" id="signedDate" name="date_signed" required>
+          <input type="date" id="signedDate" name="date_signed" required readonly>
         </div>
         <p class="form-note">Submitting this form emails ATL Dart Club and records your waiver. Keep a copy of the email confirmation if Formspree sends you one.</p>
         <button type="submit" class="btn btn-primary">Submit Waiver</button>
@@ -534,12 +535,85 @@
 
   const dob = document.getElementById('dob');
   const signedDate = document.getElementById('signedDate');
+  const eventDate = document.getElementById('eventDate');
+  const state = document.getElementById('state');
+  const zip = document.getElementById('zip');
+
+  function localISODate(d){
+    const x = d || new Date();
+    return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  }
+  function bindIntegerField(el, min, max){
+    if (!el) return;
+    el.addEventListener('keydown', (e) => {
+      if (['e', 'E', '+', '-', '.'].includes(e.key)) e.preventDefault();
+    });
+    el.addEventListener('wheel', (e) => {
+      if (document.activeElement === el) e.preventDefault();
+    }, {passive: false});
+    el.addEventListener('paste', (e) => {
+      const t = (e.clipboardData || window.clipboardData).getData('text');
+      if (!/^\d+$/.test(t.trim())) e.preventDefault();
+    });
+    el.addEventListener('input', () => {
+      const digits = el.value.replace(/\D/g, '');
+      if (digits === '') { el.value = ''; return; }
+      let n = parseInt(digits, 10);
+      if (n > max) n = max;
+      el.value = String(n);
+    });
+    el.addEventListener('blur', () => {
+      if (el.value === '') return;
+      let n = parseInt(el.value, 10);
+      if (isNaN(n) || n < min) el.value = String(min);
+    });
+  }
+  function bindPhoneField(el){
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const d = el.value.replace(/\D/g, '').slice(0, 10);
+      let out = d;
+      if (d.length >= 7) out = '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+      else if (d.length >= 4) out = '(' + d.slice(0, 3) + ') ' + d.slice(3);
+      else if (d.length) out = '(' + d;
+      el.value = out;
+    });
+  }
+  function bindFutureDate(el){
+    if (!el) return;
+    const stamp = () => {
+      el.min = localISODate();
+      if (el.value && el.value < el.min) el.value = '';
+    };
+    stamp();
+    el.addEventListener('focus', stamp);
+    el.addEventListener('change', stamp);
+  }
+
   const today = new Date();
-  const isoToday = today.toISOString().slice(0, 10);
-  const adultCutoff = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+  const isoToday = localISODate(today);
+  const adultCutoff = localISODate(new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()));
+  const oldestDob = localISODate(new Date(today.getFullYear() - 120, today.getMonth(), today.getDate()));
+  dob.min = oldestDob;
   dob.max = adultCutoff;
-  signedDate.value = isoToday;
+  dob.addEventListener('change', () => {
+    if (dob.value && (dob.value > dob.max || dob.value < dob.min)) dob.value = '';
+  });
+  signedDate.min = isoToday;
   signedDate.max = isoToday;
+  signedDate.value = isoToday;
+  bindFutureDate(eventDate);
+  bindPhoneField(document.getElementById('phone'));
+  bindPhoneField(document.getElementById('emergencyPhone'));
+  state.addEventListener('input', () => {
+    state.value = state.value.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase();
+  });
+  zip.addEventListener('keydown', (e) => {
+    if (['e', 'E', '+', '-', '.'].includes(e.key)) e.preventDefault();
+  });
+  zip.addEventListener('input', () => {
+    zip.value = zip.value.replace(/[^\d-]/g, '').slice(0, 10);
+  });
 
   const minorsWrap = document.getElementById('minorsWrap');
   const minorsEmpty = document.getElementById('minorsEmpty');
@@ -570,17 +644,18 @@
     row.className = 'minor-row';
     row.innerHTML =
       '<div class="field"><label for="minorName' + id + '">Minor’s full name</label>' +
-      '<input type="text" id="minorName' + id + '" name="minor_' + id + '_name" data-f="name" required></div>' +
+      '<input type="text" id="minorName' + id + '" name="minor_' + id + '_name" data-f="name" maxlength="80" required></div>' +
       '<div class="field"><label for="minorAge' + id + '">Age</label>' +
-      '<input type="number" id="minorAge' + id + '" name="minor_' + id + '_age" data-f="age" min="0" max="17" inputmode="numeric" required></div>' +
+      '<input type="number" id="minorAge' + id + '" name="minor_' + id + '_age" data-f="age" min="1" max="17" step="1" inputmode="numeric" required></div>' +
       '<div class="field"><label for="minorRel' + id + '">Your relationship</label>' +
-      '<input type="text" id="minorRel' + id + '" name="minor_' + id + '_relationship" data-f="rel" placeholder="Parent, guardian…" required></div>' +
+      '<input type="text" id="minorRel' + id + '" name="minor_' + id + '_relationship" data-f="rel" placeholder="Parent, guardian…" maxlength="40" required></div>' +
       '<button type="button" class="btn-remove" aria-label="Remove this minor">Remove</button>';
     row.querySelector('.btn-remove').addEventListener('click', () => {
       row.remove();
       syncMinors();
     });
     row.querySelectorAll('input').forEach(el => el.addEventListener('input', syncMinors));
+    bindIntegerField(row.querySelector('[data-f="age"]'), 1, 17);
     minorsWrap.appendChild(row);
     syncMinors();
     row.querySelector('input').focus();
@@ -627,6 +702,12 @@
     if (adultPlay.value.indexOf('only signing') !== -1 && !minorRows.length) {
       formError.textContent = 'Add at least one participant under 18, or choose that you are participating too.';
       formError.classList.add('show');
+      return;
+    }
+    if (eventDate.value && eventDate.value < localISODate()) {
+      formError.textContent = 'Event date can’t be in the past.';
+      formError.classList.add('show');
+      eventDate.focus();
       return;
     }
     if (!form.checkValidity()) { form.reportValidity(); return; }

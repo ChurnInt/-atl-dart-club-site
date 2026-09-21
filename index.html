@@ -847,8 +847,8 @@
       <div class="pricing-grid">
         <div class="price-ticket reveal tilt-a">
           <span class="plan-name">Birthday Battle</span>
-          <div class="price"><sup>$</sup>300</div>
-          <div class="price-note">Starting at — 2-hour block</div>
+          <div class="price"><sup>$</sup>400</div>
+          <div class="price-note">Starting at — 2-hour block. Book this month for special value.</div>
           <ul>
             <li>Full gear &amp; setup included</li>
             <li>Hosted by trained ADC crew</li>
@@ -859,27 +859,27 @@
         </div>
         <div class="price-ticket featured reveal reveal-1">
           <span class="plan-name">Large Group</span>
-          <div class="price"><sup>$</sup>600</div>
-          <div class="price-note">Starting at — bigger crews, more chaos</div>
+          <div class="price"><sup>$</sup>700</div>
+          <div class="price-note">Starting at — perfect for festivals &amp; community events</div>
           <ul>
             <li>Everything in Birthday Battle</li>
             <li>Scaled gear for larger headcounts</li>
             <li>Multiple simultaneous game zones</li>
-            <li>Great for schools &amp; nonprofits</li>
+            <li>Great for businesses, schools &amp; nonprofits</li>
           </ul>
           <a href="#book" class="btn btn-dark">Request this</a>
         </div>
         <div class="price-ticket reveal reveal-2 tilt-b">
           <span class="plan-name">Corporate</span>
-          <div class="price"><sup>$</sup>1,200</div>
-          <div class="price-note">Starting at — full team-building experience</div>
+          <div class="price">Custom quote</div>
+          <div class="price-note">Request a quote — fun Nerf team-building experience</div>
           <ul>
             <li>Everything in Large Group</li>
             <li>Team-building game structure</li>
             <li>Handles 50–200+ people</li>
             <li>Dedicated event lead &amp; planning call</li>
           </ul>
-          <a href="#book" class="btn btn-dark">Request this</a>
+          <a href="#book" class="btn btn-dark">Request a quote</a>
         </div>
       </div>
       <p class="pricing-footnote">Need something bigger, smaller, or weirder? Every quote is custom past the starting rate — tell us what you're picturing and we'll price it out.</p>
@@ -982,15 +982,15 @@
 
         <div class="field">
           <label for="name">Full name</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" name="name" autocomplete="name" minlength="2" maxlength="80" required>
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="120" required>
         </div>
         <div class="field">
           <label for="phone">Phone</label>
-          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" required>
+          <input type="tel" id="phone" name="phone" placeholder="(404) 555-1234" autocomplete="tel" inputmode="tel" pattern="^\(\d{3}\) \d{3}-\d{4}$" title="Enter a 10-digit US phone number" maxlength="14" required>
         </div>
 
         <div class="field">
@@ -1006,28 +1006,28 @@
         </div>
         <div class="field">
           <label for="groupSize">Group size</label>
-          <input type="text" id="groupSize" name="group_size" placeholder="e.g. 25 people" required>
+          <input type="number" id="groupSize" name="group_size" placeholder="25" min="1" max="500" step="1" inputmode="numeric" required>
         </div>
 
         <div class="extra-fields" id="corporateFields" hidden>
           <div class="field">
             <label for="organizationName">Organization name</label>
-            <input type="text" id="organizationName" name="organization_name" disabled>
+            <input type="text" id="organizationName" name="organization_name" maxlength="120" disabled>
           </div>
           <div class="field">
             <label for="organizationWebsite">Organization website</label>
-            <input type="url" id="organizationWebsite" name="organization_website" placeholder="https://" disabled>
+            <input type="url" id="organizationWebsite" name="organization_website" placeholder="https://" maxlength="200" disabled>
           </div>
         </div>
 
         <div class="birthday-fields" id="birthdayFields" hidden>
           <div class="field">
             <label for="birthdayPersonName">Birthday person's name</label>
-            <input type="text" id="birthdayPersonName" name="birthday_person_name" disabled>
+            <input type="text" id="birthdayPersonName" name="birthday_person_name" maxlength="80" disabled>
           </div>
           <div class="field">
             <label for="birthdayAgeTurning">Age they are turning</label>
-            <input type="number" id="birthdayAgeTurning" name="birthday_age_turning" min="1" max="120" inputmode="numeric" disabled>
+            <input type="number" id="birthdayAgeTurning" name="birthday_age_turning" min="1" max="120" step="1" inputmode="numeric" disabled>
           </div>
           <div class="field full">
             <label for="birthdayDate">Date of the birthday</label>
@@ -1041,7 +1041,7 @@
         </div>
         <div class="field">
           <label for="location">Location / venue</label>
-          <input type="text" id="location" name="location" placeholder="Park, gym, office address…" required>
+          <input type="text" id="location" name="location" placeholder="Park, gym, office address…" maxlength="160" required>
         </div>
 
         <div class="field full">
@@ -1280,6 +1280,68 @@
   eventType.addEventListener('change', syncEventExtras);
   syncEventExtras();
 
+  function localISODate(d){
+    const x = d || new Date();
+    return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  }
+  function bindIntegerField(el, min, max){
+    if (!el) return;
+    el.addEventListener('keydown', (e) => {
+      if (['e', 'E', '+', '-', '.'].includes(e.key)) e.preventDefault();
+    });
+    el.addEventListener('wheel', (e) => {
+      if (document.activeElement === el) e.preventDefault();
+    }, {passive: false});
+    el.addEventListener('paste', (e) => {
+      const t = (e.clipboardData || window.clipboardData).getData('text');
+      if (!/^\d+$/.test(t.trim())) e.preventDefault();
+    });
+    el.addEventListener('input', () => {
+      const digits = el.value.replace(/\D/g, '');
+      if (digits === '') { el.value = ''; return; }
+      let n = parseInt(digits, 10);
+      if (n > max) n = max;
+      el.value = String(n);
+    });
+    el.addEventListener('blur', () => {
+      if (el.value === '') return;
+      let n = parseInt(el.value, 10);
+      if (isNaN(n) || n < min) el.value = String(min);
+    });
+  }
+  function bindPhoneField(el){
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const d = el.value.replace(/\D/g, '').slice(0, 10);
+      let out = d;
+      if (d.length >= 7) out = '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+      else if (d.length >= 4) out = '(' + d.slice(0, 3) + ') ' + d.slice(3);
+      else if (d.length) out = '(' + d;
+      el.value = out;
+    });
+  }
+  function bindFutureDate(el){
+    if (!el) return;
+    const stamp = () => {
+      el.min = localISODate();
+      if (el.value && el.value < el.min) el.value = '';
+    };
+    stamp();
+    el.addEventListener('focus', stamp);
+    el.addEventListener('change', stamp);
+  }
+
+  bindIntegerField(document.getElementById('groupSize'), 1, 500);
+  bindIntegerField(document.getElementById('birthdayAgeTurning'), 1, 120);
+  bindPhoneField(document.getElementById('phone'));
+  bindFutureDate(document.getElementById('date'));
+  bindFutureDate(document.getElementById('birthdayDate'));
+  const orgWebsite = document.getElementById('organizationWebsite');
+  orgWebsite.addEventListener('blur', () => {
+    const v = orgWebsite.value.trim();
+    if (v && !/^https?:\/\//i.test(v)) orgWebsite.value = 'https://' + v;
+  });
+
   function burstConfetti(originEl){
     if (prefersReducedMotion) return;
     const colors = ['#fdd02c', '#db0709', '#f5eedc'];
@@ -1309,6 +1371,20 @@
 
   bookForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const preferredDate = document.getElementById('date');
+    const birthdayDate = document.getElementById('birthdayDate');
+    if (preferredDate.value && preferredDate.value < localISODate()) {
+      preferredDate.setCustomValidity('Pick today or a future date.');
+      preferredDate.reportValidity();
+      return;
+    }
+    preferredDate.setCustomValidity('');
+    if (!birthdayDate.disabled && birthdayDate.value && birthdayDate.value < localISODate()) {
+      birthdayDate.setCustomValidity('Pick today or a future date.');
+      birthdayDate.reportValidity();
+      return;
+    }
+    birthdayDate.setCustomValidity('');
     if (!bookForm.checkValidity()) { bookForm.reportValidity(); return; }
     if (bookForm.querySelector('[name="_gotcha"]')?.value) return;
 
