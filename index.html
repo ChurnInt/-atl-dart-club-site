@@ -376,7 +376,6 @@
   .carousel-btn.prev{left:0;}
   .carousel-btn.next{right:0;}
   .carousel-btn:hover{transform:translateY(-50%) scale(1.08);}
-  .carousel-btn:disabled{opacity:0.35; cursor:not-allowed; transform:translateY(-50%);}
   .carousel-dots{display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:4px;}
   .carousel-dot{
     width:11px; height:11px; border-radius:50%; padding:0;
@@ -728,7 +727,7 @@
       <div class="action-head">
         <div class="section-head reveal">
           <p class="eyebrow">See it in action</p>
-          <h2>This is what "team building" looks like here.</h2>
+          <h2>This is what "NAAS" looks like here.</h2>
           <p>Real ADC battles plus the office energy a booking brings — scroll through the clips.</p>
         </div>
         <img class="squad-cutout reveal reveal-1" src="assets/squad.png" alt="Three players in masks aiming Nerf Rival blasters">
@@ -1181,13 +1180,20 @@
         }
       });
       root.querySelectorAll('.video-sound-toggle').forEach(b => { b.textContent = '🔇'; });
-      prev.disabled = i === 0;
-      next.disabled = i === slides.length - 1;
+    }
+
+    function wrapIndex(i){
+      const n = slides.length;
+      return ((i % n) + n) % n;
     }
 
     function goTo(i){
-      slides[i].scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', inline: 'center', block: 'nearest'});
-      setActive(i);
+      const target = wrapIndex(i);
+      const current = nearestIndex();
+      const looping = (current === 0 && target === slides.length - 1) || (current === slides.length - 1 && target === 0);
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      slides[target].scrollIntoView({behavior: (looping || reduce) ? 'auto' : 'smooth', inline: 'center', block: 'nearest'});
+      setActive(target);
     }
 
     let ticking = false;
@@ -1197,8 +1203,8 @@
       requestAnimationFrame(() => { setActive(nearestIndex()); ticking = false; });
     }, {passive: true});
 
-    prev.addEventListener('click', () => goTo(Math.max(0, nearestIndex() - 1)));
-    next.addEventListener('click', () => goTo(Math.min(slides.length - 1, nearestIndex() + 1)));
+    prev.addEventListener('click', () => goTo(nearestIndex() - 1));
+    next.addEventListener('click', () => goTo(nearestIndex() + 1));
     scroller.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') { e.preventDefault(); prev.click(); }
       if (e.key === 'ArrowRight') { e.preventDefault(); next.click(); }
