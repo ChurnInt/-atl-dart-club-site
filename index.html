@@ -327,15 +327,34 @@
   @media (max-width:760px){ .services-grid{grid-template-columns:1fr;} }
 
   /* ---------- VIDEO (See It In Action) ---------- */
-  .video-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .video-carousel{margin-top:8px;}
+  .carousel-stage{position:relative;}
+  .carousel-scroller{
+    display:flex; gap:22px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    padding:10px 48px 22px;
+    scrollbar-color: var(--yellow) transparent;
+  }
+  .carousel-scroller::-webkit-scrollbar{height:8px;}
+  .carousel-scroller::-webkit-scrollbar-thumb{background:var(--yellow); border-radius:999px;}
+  .carousel-slide{
+    flex:0 0 min(100%, 920px);
+    scroll-snap-align:center;
+  }
+  .carousel-slide figcaption{
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--dark-text-dim); margin:12px 0 0; text-align:center;
+  }
   .video-tile{
     position:relative; border-radius:20px; overflow:hidden;
     aspect-ratio:16/9; background:var(--black-soft);
     border:1px solid var(--dark-line);
     box-shadow: var(--shadow-hard);
   }
-  .video-tile.featured{grid-column:1 / -1; aspect-ratio:16/8;}
-  .video-tile .battle-video{width:100%; height:100%; object-fit:cover; display:block;}
+  .video-tile .battle-video{width:100%; height:100%; object-fit:cover; display:block; background:#000;}
   .video-sound-toggle{
     position:absolute; bottom:14px; right:14px;
     width:38px; height:38px; border-radius:50%;
@@ -345,10 +364,30 @@
     transition:background .15s ease, transform .15s ease;
   }
   .video-sound-toggle:hover{background:var(--red); transform:scale(1.08);}
+  .carousel-btn{
+    position:absolute; top:42%; transform:translateY(-50%);
+    z-index:3;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--yellow); color:var(--black);
+    border:3px solid var(--black);
+    font-size:1.7rem; line-height:1; cursor:pointer;
+    box-shadow: var(--shadow-hard);
+  }
+  .carousel-btn.prev{left:0;}
+  .carousel-btn.next{right:0;}
+  .carousel-btn:hover{transform:translateY(-50%) scale(1.08);}
+  .carousel-btn:disabled{opacity:0.35; cursor:not-allowed; transform:translateY(-50%);}
+  .carousel-dots{display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:4px;}
+  .carousel-dot{
+    width:11px; height:11px; border-radius:50%; padding:0;
+    background:rgba(245,238,220,0.28); border:0; cursor:pointer;
+  }
+  .carousel-dot.is-active{background:var(--yellow); transform:scale(1.2);}
 
   @media (max-width:860px){
-    .video-grid{grid-template-columns:1fr;}
-    .video-tile.featured{aspect-ratio:16/9;}
+    .carousel-scroller{padding:8px 40px 18px;}
+    .carousel-slide{flex-basis:88%;}
+    .carousel-btn{width:38px; height:38px; font-size:1.4rem;}
   }
 
   /* ---------- PRICING ---------- */
@@ -690,35 +729,83 @@
         <div class="section-head reveal">
           <p class="eyebrow">See it in action</p>
           <h2>This is what "team building" looks like here.</h2>
-          <p>Real energy, real reactions — this is the kind of chaos your office is signing up for.</p>
+          <p>Real ADC battles plus the office energy a booking brings — scroll through the clips.</p>
         </div>
         <img class="squad-cutout reveal reveal-1" src="assets/squad.png" alt="Three players in masks aiming Nerf Rival blasters">
       </div>
-      <div class="video-grid">
-        <div class="video-tile featured reveal tilt-a">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
-            <source src="assets/video/office-battle-1.mp4" type="video/mp4">
-          </video>
-          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v1">🔇</button>
+      <div class="video-carousel reveal" id="videoCarousel">
+        <div class="carousel-stage">
+          <button type="button" class="carousel-btn prev" aria-label="Previous video">‹</button>
+          <div class="carousel-scroller" tabindex="0">
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="metadata">
+                  <source src="assets/video/adc-field-1.mp4" type="video/mp4">
+                </video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>ADC — from the field</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/adc-field-2.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>ADC — from the field</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/adc-field-3.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>ADC — event tape</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/adc-hover.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>ADC — hover cam</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/adc-field-4.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>ADC — from the field</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/office-battle-1.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>Office battle — team play</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/office-battle-2.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>Office battle — dart hit</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/office-battle-3.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>Office battle — slow-mo</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <div class="video-tile">
+                <video class="battle-video" playsinline muted loop preload="none" data-src="assets/video/office-battle-4.mp4"></video>
+                <button class="video-sound-toggle" aria-label="Toggle sound">🔇</button>
+              </div>
+              <figcaption>Office battle — slow-mo</figcaption>
+            </figure>
+          </div>
+          <button type="button" class="carousel-btn next" aria-label="Next video">›</button>
         </div>
-        <div class="video-tile reveal reveal-1 tilt-b">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
-            <source src="assets/video/office-battle-2.mp4" type="video/mp4">
-          </video>
-          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v2">🔇</button>
-        </div>
-        <div class="video-tile reveal reveal-2 tilt-c">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
-            <source src="assets/video/office-battle-3.mp4" type="video/mp4">
-          </video>
-          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v3">🔇</button>
-        </div>
-        <div class="video-tile reveal reveal-3 tilt-d">
-          <video class="battle-video" playsinline muted loop autoplay preload="metadata">
-            <source src="assets/video/office-battle-4.mp4" type="video/mp4">
-          </video>
-          <button class="video-sound-toggle" aria-label="Toggle sound" data-target="v4">🔇</button>
-        </div>
+        <div class="carousel-dots" role="tablist" aria-label="Video clips"></div>
       </div>
     </div>
   </section>
@@ -1001,6 +1088,97 @@
   } else {
     revealEls.forEach(el => el.classList.add('in-view'));
   }
+
+  // video carousel — scroll / arrows / dots; only the centered clip plays
+  (function initVideoCarousel(){
+    const root = document.getElementById('videoCarousel');
+    if (!root) return;
+    const scroller = root.querySelector('.carousel-scroller');
+    const slides = [...root.querySelectorAll('.carousel-slide')];
+    const prev = root.querySelector('.carousel-btn.prev');
+    const next = root.querySelector('.carousel-btn.next');
+    const dotsWrap = root.querySelector('.carousel-dots');
+
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'carousel-dot';
+      b.setAttribute('aria-label', 'Show clip ' + (i + 1));
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+    const dots = [...dotsWrap.children];
+
+    function loadVideo(slide){
+      const v = slide.querySelector('video');
+      if (!v || v.querySelector('source') || v.src) return;
+      if (!v.dataset.src) return;
+      const s = document.createElement('source');
+      s.src = v.dataset.src;
+      s.type = 'video/mp4';
+      v.appendChild(s);
+      v.load();
+    }
+
+    function nearestIndex(){
+      const mid = scroller.scrollLeft + scroller.clientWidth / 2;
+      let best = 0, bestDist = Infinity;
+      slides.forEach((slide, i) => {
+        const center = slide.offsetLeft + slide.offsetWidth / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    let current = -1;
+
+    function setActive(i){
+      if (i === current) return;
+      current = i;
+      slides.forEach((slide, idx) => {
+        const v = slide.querySelector('video');
+        const on = idx === i;
+        slide.classList.toggle('is-active', on);
+        dots[idx] && dots[idx].classList.toggle('is-active', on);
+        if (!v) return;
+        if (on) {
+          loadVideo(slide);
+          if (slides[i - 1]) loadVideo(slides[i - 1]);
+          if (slides[i + 1]) loadVideo(slides[i + 1]);
+          v.play().catch(function(){});
+        } else {
+          v.pause();
+          v.muted = true;
+        }
+      });
+      root.querySelectorAll('.video-sound-toggle').forEach(b => { b.textContent = '🔇'; });
+      prev.disabled = i === 0;
+      next.disabled = i === slides.length - 1;
+    }
+
+    function goTo(i){
+      slides[i].scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', inline: 'center', block: 'nearest'});
+      setActive(i);
+    }
+
+    let ticking = false;
+    scroller.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { setActive(nearestIndex()); ticking = false; });
+    }, {passive: true});
+
+    prev.addEventListener('click', () => goTo(Math.max(0, nearestIndex() - 1)));
+    next.addEventListener('click', () => goTo(Math.min(slides.length - 1, nearestIndex() + 1)));
+    scroller.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev.click(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); next.click(); }
+    });
+
+    loadVideo(slides[0]);
+    setActive(0);
+  })();
 
   // video sound toggles — only one video plays with sound at a time
   const soundButtons = document.querySelectorAll('.video-sound-toggle');
