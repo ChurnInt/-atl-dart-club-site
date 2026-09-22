@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Corporate Team Building | ATL Dart Club</title>
+<meta name="description" content="Re-energize your Atlanta team with hosted Nerf As A Service — an innovative, fully hosted team-building battle for offices, offsites, and retreats.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --black-soft:#141210;
+    --cream:#f5eedc;
+    --cream-dim:#ece2c8;
+    --red:#db0709;
+    --yellow:#fdd02c;
+    --ink:#171310;
+    --dark-line: rgba(245,238,220,0.14);
+    --dark-text-dim: rgba(245,238,220,0.66);
+    --ink-dim: rgba(23,19,16,0.66);
+    --shadow-hard: 6px 6px 0 rgba(0,0,0,0.9);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    margin:0;
+    background:var(--black);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    max-width:100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  body.nav-open{overflow:hidden;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  h1,h2,h3{font-family:'Anton', sans-serif; text-transform:uppercase; letter-spacing:0.01em; margin:0; line-height:1.02;}
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    font-size:0.78rem;
+    color:var(--yellow);
+  }
+  .eyebrow.on-light{color:var(--red);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    font-size:0.92rem;
+    padding:15px 26px;
+    border-radius:999px;
+    border:3px solid var(--black);
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow: var(--shadow-hard);
+  }
+  .btn:active{transform:translate(3px,3px); box-shadow:0 0 0 rgba(0,0,0,0.9);}
+  .btn-primary{background:var(--red); color:var(--cream); border-color:var(--black); position:relative;}
+  .btn-primary:hover{transform:translate(-2px,-2px) rotate(-1deg); box-shadow:9px 9px 0 rgba(0,0,0,0.9);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:var(--cream);}
+  .btn-ghost:hover{background:var(--cream); color:var(--black);}
+  .btn-dark{background:var(--black); color:var(--yellow); border-color:var(--black);}
+  .btn-dark:hover{transform:translate(-2px,-2px); box-shadow:9px 9px 0 rgba(0,0,0,0.35);}
+  :focus-visible{outline:3px solid var(--yellow); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease;}
+    .reveal.in-view{opacity:1; transform:translateY(0);}
+    .reveal-1{transition-delay:.05s;} .reveal-2{transition-delay:.12s;} .reveal-3{transition-delay:.19s;} .reveal-4{transition-delay:.26s;}
+    .nav-logo img{animation:spin-slow 22s linear infinite;}
+    .nav-logo:hover img{animation-play-state:paused;}
+  }
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg));} 50%{transform:translateY(-14px) rotate(var(--r,0deg));}}
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+  @keyframes dash-flow{to{stroke-dashoffset:-200;}}
+  @keyframes wiggle-in{0%{transform:rotate(-10deg) scale(0.85); opacity:0;} 60%{transform:rotate(4deg) scale(1.04);} 100%{transform:rotate(-6deg) scale(1); opacity:1;}}
+
+  .nerf-accent{
+    position:absolute; pointer-events:none; user-select:none; z-index:1;
+    mix-blend-mode:lighten;
+  }
+  .nerf-accent.blaster-red{
+    right:2%; bottom:0;
+    width:min(40vw, 320px);
+    --r:10deg;
+    transform:rotate(var(--r)) scaleX(-1);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .nerf-accent.blaster-red{animation:bob 7.5s ease-in-out infinite;}
+  }
+
+  header.site-nav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(10,10,10,0.94);
+    border-bottom:1px solid var(--dark-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px;
+    max-width:1180px; margin:0 auto;
+  }
+  .nav-logo{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .nav-logo img{height:55px; width:55px; object-fit:cover; border-radius:50%;}
+  .nav-logo span{font-family:'Space Grotesk'; font-weight:700; letter-spacing:0.04em; font-size:0.85rem; color:var(--cream); display:none;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-family:'Space Grotesk'; font-weight:600; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em;}
+  .nav-links a{
+    display:inline-block;
+    text-decoration:none; color:var(--dark-text-dim);
+    margin-right:28px;
+    transform:scale(1);
+    transform-origin:center bottom;
+    transition:color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
+  .nav-links a:last-child{margin-right:0;}
+  .nav-links a:hover{color:var(--yellow); transform:scale(1.12);}
+  .nav-cta{display:flex; align-items:center; gap:12px;}
+  .nav-cta .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;}
+  .nav-cta .btn:hover{transform:scale(1.1) translate(-2px,-2px) rotate(-1deg);}
+  .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
+  .nav-mobile-cta{display:none;}
+
+  .dart-divider{width:100%; overflow:hidden; line-height:0;}
+  .dart-divider svg{width:100%; height:56px; display:block;}
+  @media (prefers-reduced-motion: no-preference){
+    .dart-divider path{animation:dash-flow 6s linear infinite;}
+  }
+
+  section{padding:88px 0;}
+  .section-dark{background:var(--black);}
+  .section-light{background:var(--cream); color:var(--ink);}
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(2rem, 4vw, 2.9rem); margin-top:10px;}
+  .section-light .section-head p{color:var(--ink-dim);}
+  .section-dark .section-head p{color:var(--dark-text-dim);}
+  .section-head p{margin-top:14px; font-size:1.02rem; max-width:56ch;}
+
+  .corp-hero{
+    position:relative; overflow:hidden;
+    padding:110px 0 64px;
+    background:
+      radial-gradient(circle at 85% 10%, rgba(219,7,9,0.18), transparent 45%),
+      radial-gradient(circle at 8% 80%, rgba(253,208,44,0.10), transparent 40%),
+      radial-gradient(rgba(245,238,220,0.05) 1.4px, transparent 1.4px) 0 0/22px 22px,
+      var(--black);
+  }
+  .corp-hero .wrap{position:relative; z-index:2;}
+  .corp-hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px; align-items:center;}
+  .corp-hero h1{font-size:clamp(2.5rem, 6vw, 4.2rem); color:var(--cream);}
+  .corp-hero h1 .accent{color:var(--red); -webkit-text-stroke:1.5px var(--yellow);}
+  .corp-hero .lede{font-size:clamp(1.08rem, 2vw, 1.28rem); color:var(--yellow); max-width:48ch; margin:22px 0 28px; line-height:1.5;}
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:14px;}
+  .hero-mark img{
+    width:100%; max-width:360px; margin:0 auto;
+    filter:drop-shadow(0 20px 40px rgba(219,7,9,0.25));
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .hero-mark img{animation:wiggle-in .8s cubic-bezier(.34,1.56,.64,1) both;}
+  }
+
+  .picture-copy p{font-size:1.08rem; color:var(--ink-dim); margin:0 0 18px; max-width:62ch;}
+  .picture-copy strong{color:var(--ink);}
+  .picture-points{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:36px;}
+  .picture-card{
+    background:#fff; border:2px solid rgba(23,19,16,0.12); border-radius:18px; padding:22px 20px;
+  }
+  .picture-card h3{font-family:'Space Grotesk'; text-transform:none; font-size:1.05rem; font-weight:700; margin:0 0 8px; color:var(--ink);}
+  .picture-card p{margin:0; color:var(--ink-dim); font-size:0.95rem;}
+
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  .step{
+    background:var(--black-soft); border:1px solid var(--dark-line);
+    border-radius:18px; padding:24px 20px;
+  }
+  .step .num{font-family:'Anton'; font-size:1.8rem; color:var(--yellow); display:block; margin-bottom:10px;}
+  .step h3{font-family:'Space Grotesk'; text-transform:none; font-size:1.08rem; font-weight:700; margin:0 0 8px; color:var(--cream);}
+  .step p{margin:0; color:var(--dark-text-dim); font-size:0.94rem;}
+
+  .who-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+  .who-card{
+    background:var(--black-soft); border:1px solid var(--dark-line);
+    border-radius:18px; padding:26px 24px;
+  }
+  .who-card h3{font-family:'Space Grotesk'; text-transform:none; font-size:1.16rem; font-weight:700; margin:0 0 8px; color:var(--cream);}
+  .who-card p{margin:0; color:var(--dark-text-dim); font-size:0.96rem;}
+
+  .video-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px;}
+  .video-tile{
+    position:relative; border-radius:20px; overflow:hidden;
+    aspect-ratio:16/9; background:var(--black-soft);
+    border:1px solid var(--dark-line);
+    box-shadow: var(--shadow-hard);
+  }
+  .video-tile .battle-video{width:100%; height:100%; object-fit:cover; display:block; background:#000;}
+  .video-caption{
+    font-family:'Space Grotesk'; font-weight:700; font-size:0.78rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--dark-text-dim); margin:12px 0 0; text-align:center;
+  }
+  .video-sound-toggle{
+    position:absolute; bottom:14px; right:14px;
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(10,10,10,0.65); border:1px solid rgba(245,238,220,0.3);
+    color:var(--cream); font-size:1rem; cursor:pointer;
+  }
+
+  .close-block{
+    text-align:center;
+    background:var(--black-soft); border:1px solid var(--dark-line);
+    border-radius:22px; padding:48px 32px;
+  }
+  .close-block h2{font-size:clamp(1.8rem,4vw,2.5rem); color:var(--cream); margin:10px 0 14px;}
+  .close-block p{color:var(--dark-text-dim); max-width:50ch; margin:0 auto 24px;}
+  .close-block .btn-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .rate-note{font-family:'Space Grotesk'; font-size:0.88rem; color:var(--yellow); margin:0 auto 22px; max-width:48ch;}
+
+  footer{background:var(--black-soft); border-top:1px solid var(--dark-line); padding:52px 0 28px;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; margin-bottom:36px;}
+  .footer-logo img{height:52px;}
+  .footer-cols{display:flex; gap:56px; flex-wrap:wrap;}
+  .footer-col h5{font-family:'Space Grotesk'; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow); margin:0 0 12px;}
+  .footer-col a, .footer-col span{display:block; font-size:0.92rem; color:var(--dark-text-dim); text-decoration:none; margin-bottom:8px;}
+  .footer-col a:hover{color:var(--cream);}
+  .footer-bottom{border-top:1px solid var(--dark-line); padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem; color:rgba(245,238,220,0.45); font-family:'Space Grotesk';}
+
+  @media (max-width:900px){
+    .picture-points, .steps, .who-grid, .video-grid, .corp-hero-grid{grid-template-columns:1fr;}
+    .hero-mark{order:-1;}
+    .hero-mark img{max-width:220px;}
+  }
+  @media (max-width:860px){
+    .wrap{padding:0 16px;}
+    .nav-inner{
+      padding:8px 16px;
+      padding-left:max(16px, env(safe-area-inset-left));
+      padding-right:max(16px, env(safe-area-inset-right));
+    }
+    header.site-nav{padding-top:env(safe-area-inset-top, 0px);}
+    .nav-logo span{display:inline; font-size:0.78rem; letter-spacing:0.06em;}
+    .nav-logo img{height:46px; width:46px;}
+    .nav-cta{display:none;}
+    .nav-toggle{
+      display:flex; align-items:center; justify-content:center;
+      width:44px; height:44px; font-size:1.45rem; padding:0; flex-shrink:0;
+    }
+    .nav-links{
+      position:fixed;
+      top:calc(62px + env(safe-area-inset-top, 0px));
+      left:0; right:0; bottom:0;
+      width:100%;
+      min-height:calc(100dvh - 62px);
+      background:rgba(10,10,10,0.98);
+      flex-direction:column; align-items:stretch;
+      padding:12px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      gap:0; font-size:1.15rem;
+      transform:translateX(100%);
+      transition:transform .25s ease, visibility .25s ease;
+      overflow-y:auto; z-index:99;
+      visibility:hidden; pointer-events:none;
+    }
+    .nav-links a{
+      margin-right:0; padding:16px 0;
+      border-bottom:1px solid var(--dark-line);
+      transform:none; min-height:48px;
+    }
+    .nav-links a:hover{transform:none;}
+    .nav-links.open{transform:translateX(0); visibility:visible; pointer-events:auto;}
+    .nav-mobile-cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      margin-top:22px; padding:14px 22px; border-radius:999px;
+      background:var(--red); color:var(--cream) !important;
+      border:3px solid var(--black); font-size:0.92rem;
+      box-shadow: var(--shadow-hard); border-bottom:3px solid var(--black) !important;
+    }
+    .corp-hero{padding:56px 0 36px;}
+    section{padding:56px 0;}
+    .hero-ctas .btn, .close-block .btn-row .btn{width:100%; justify-content:center;}
+    .footer-top, .footer-bottom{flex-direction:column; gap:18px;}
+    .btn{min-height:48px;}
+  }
+  @media (hover:none){
+    .btn-primary:hover, .nav-cta .btn:hover{transform:none; box-shadow:var(--shadow-hard);}
+    .nav-links a:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
+      <span>ATL DART CLUB</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="corporate.html" style="color:var(--yellow);">Corporate</a>
+      <a href="index.html#services">Birthdays</a>
+      <a href="index.html#in-action">See It In Action</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="index.html#battles">Recent Battles</a>
+      <a href="events.html">Events</a>
+      <a href="index.html?type=corporate#book" class="nav-mobile-cta">Request a Team Day</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="index.html?type=corporate#book" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Request a Team Day</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="corp-hero">
+    <img class="nerf-accent blaster-red" src="assets/blaster-red.png" alt="" aria-hidden="true">
+    <div class="wrap corp-hero-grid">
+      <div>
+        <p class="eyebrow">Organizational NAAS · Atlanta</p>
+        <h1>RE-ENERGIZE<br>THE <span class="accent">TEAM.</span></h1>
+        <p class="lede">Hosted Nerf As A Service for offices, offsites, and retreats — a fun, innovative team-building battle people actually want to play.</p>
+        <div class="hero-ctas">
+          <a href="index.html?type=corporate#book" class="btn btn-primary">Request a Team Day</a>
+          <a href="#how" class="btn btn-ghost">How a day runs</a>
+        </div>
+      </div>
+      <div class="hero-mark">
+        <img src="assets/character-corporate.png" alt="Office professional aiming an ATL Dart Club blaster">
+      </div>
+    </div>
+  </section>
+
+  <div class="dart-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 Q300,-10 600,30 T1200,30" fill="none" stroke="#fdd02c" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.55"/>
+      <polygon points="1178,20 1200,30 1178,40 1184,30" fill="#db0709"/>
+    </svg>
+  </div>
+
+  <section class="section-light">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow on-light">The picture</p>
+        <h2>Not another trust fall.</h2>
+      </div>
+      <div class="picture-copy reveal">
+        <p>Most team-building days fade by Monday. An ADC team day does not. We roll into your office, parking lot, gym, or offsite and run a hosted Nerf battle that gets people moving, laughing, and actually talking to each other.</p>
+        <p>It is <strong>fun and engaging on purpose</strong> — an innovative alternative to paintball or laser tag, minus the bruises and the price tag. Your staff shows up as coworkers. They leave as a squad that just won something together.</p>
+      </div>
+      <div class="picture-points">
+        <div class="picture-card reveal">
+          <h3>A jolt of energy</h3>
+          <p>Custom game modes, real refs, and foam flying. The room — or the lot — lights up fast.</p>
+        </div>
+        <div class="picture-card reveal reveal-1">
+          <h3>We come to you</h3>
+          <p>No bus to a warehouse. Parks, gyms, office parking lots, retreat lawns — if there is room to run, we can run it.</p>
+        </div>
+        <div class="picture-card reveal reveal-2">
+          <h3>Safer than paintball</h3>
+          <p>Full gear, hosted crew, and a family-friendly format that still feels competitive.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark" id="how">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">How a day runs</p>
+        <h2>You bring the people. We run the battle.</h2>
+        <p>Trained ADC crew handles setup, game modes, refereeing, and teardown from start to finish.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="num">01</span>
+          <h3>Pick the date and place</h3>
+          <p>Office, parking lot, gym, or offsite. Tell us the headcount and we will tell you what fits.</p>
+        </div>
+        <div class="step reveal reveal-1">
+          <span class="num">02</span>
+          <h3>Planning call</h3>
+          <p>Corporate bookings get a dedicated event lead. We lock game structure, timing, and logistics.</p>
+        </div>
+        <div class="step reveal reveal-2">
+          <span class="num">03</span>
+          <h3>We show up ready</h3>
+          <p>Gear, hosts, setup. Your team just shows up and plays.</p>
+        </div>
+        <div class="step reveal reveal-3">
+          <span class="num">04</span>
+          <h3>Battle, then teardown</h3>
+          <p>We ref the whole thing and pack out. You get the energy — not the cleanup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Who it’s for</p>
+        <h2>Company days that need a reset.</h2>
+      </div>
+      <div class="who-grid">
+        <div class="who-card reveal">
+          <h3>Offsites and retreats</h3>
+          <p>A hosted battle as the high point of the day — not a filler activity people duck out of.</p>
+        </div>
+        <div class="who-card reveal reveal-1">
+          <h3>Office and all-hands energy</h3>
+          <p>Break the slide deck. Get the whole floor moving without leaving campus.</p>
+        </div>
+        <div class="who-card reveal reveal-2">
+          <h3>25 to 200+ people</h3>
+          <p>Scaled gear, multiple game zones when the crowd is big, and a crew that can hold it.</p>
+        </div>
+        <div class="who-card reveal reveal-3">
+          <h3>A dedicated planning call</h3>
+          <p>Corporate is a custom quote. We talk through group size, location, and how you want the day to feel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Proof</p>
+        <h2>This is what a team day looks like.</h2>
+        <p>Office energy from ADC bookings. Organizations like Adult Swim and Emory University's Goizueta Business School have already run with us.</p>
+      </div>
+      <div class="video-grid">
+        <figure class="reveal">
+          <div class="video-tile">
+            <video class="battle-video" playsinline muted loop autoplay preload="metadata">
+              <source src="assets/video/office-battle-1.mp4" type="video/mp4">
+            </video>
+            <button class="video-sound-toggle" type="button" aria-label="Toggle sound">🔇</button>
+          </div>
+          <figcaption class="video-caption">Office battle — team play</figcaption>
+        </figure>
+        <figure class="reveal reveal-1">
+          <div class="video-tile">
+            <video class="battle-video" playsinline muted loop autoplay preload="none">
+              <source src="assets/video/office-battle-2.mp4" type="video/mp4">
+            </video>
+            <button class="video-sound-toggle" type="button" aria-label="Toggle sound">🔇</button>
+          </div>
+          <figcaption class="video-caption">Office battle — dart hit</figcaption>
+        </figure>
+        <figure class="reveal reveal-2">
+          <div class="video-tile">
+            <video class="battle-video" playsinline muted loop autoplay preload="none">
+              <source src="assets/video/office-battle-3.mp4" type="video/mp4">
+            </video>
+            <button class="video-sound-toggle" type="button" aria-label="Toggle sound">🔇</button>
+          </div>
+          <figcaption class="video-caption">Office battle — slow-mo</figcaption>
+        </figure>
+        <figure class="reveal reveal-3">
+          <div class="video-tile">
+            <video class="battle-video" playsinline muted loop autoplay preload="none">
+              <source src="assets/video/office-battle-4.mp4" type="video/mp4">
+            </video>
+            <button class="video-sound-toggle" type="button" aria-label="Toggle sound">🔇</button>
+          </div>
+          <figcaption class="video-caption">Office battle — slow-mo</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark" style="padding-top:0;">
+    <div class="wrap">
+      <div class="close-block reveal">
+        <p class="eyebrow">Let's book it</p>
+        <h2>Request a team day.</h2>
+        <p>Tell us the occasion, headcount, and where you want the battlefield. We reply with a custom quote, usually within 1–2 business days. Corporate bookings include a planning call.</p>
+        <p class="rate-note">Large Group starts at $700. Corporate is a custom quote from there — same starting rates as the home page, no new numbers here.</p>
+        <div class="btn-row">
+          <a href="index.html?type=corporate#book" class="btn btn-primary">Request a Team Day</a>
+          <a href="index.html#pricing" class="btn btn-ghost">See starting rates</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="assets/logo-yellow.png" alt="ATL Dart Club logo">
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="corporate.html">Corporate</a>
+          <a href="index.html#services">Birthdays</a>
+          <a href="index.html#pricing">Pricing</a>
+          <a href="index.html#battles">Recent Battles</a>
+          <a href="events.html">Upcoming Events</a>
+        </div>
+        <div class="footer-col">
+          <h5>Get in touch</h5>
+          <a href="index.html?type=corporate#book">Request a Team Day</a>
+          <a href="waiver.html">Activity &amp; Photo Waiver</a>
+          <a href="https://www.instagram.com/atldartclub/" target="_blank" rel="noopener noreferrer">Follow ADC on Instagram!</a>
+          <span>Decatur &amp; Atlanta, GA</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ATL Dart Club. All rights reserved.</span>
+      <span>Nerf As A Service™</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  function setNav(open){
+    navLinks.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    navToggle.textContent = open ? '✕' : '☰';
+  }
+  navToggle.addEventListener('click', () => setNav(!navLinks.classList.contains('open')));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNav(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
+  }
+
+  document.querySelectorAll('.video-tile').forEach((tile) => {
+    const video = tile.querySelector('video');
+    const btn = tile.querySelector('.video-sound-toggle');
+    if (!video || !btn) return;
+    btn.addEventListener('click', () => {
+      const mute = !video.muted;
+      document.querySelectorAll('.battle-video').forEach((v) => { v.muted = true; });
+      document.querySelectorAll('.video-sound-toggle').forEach((b) => { b.textContent = '🔇'; });
+      if (!mute) {
+        video.muted = false;
+        btn.textContent = '🔊';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
