@@ -182,9 +182,18 @@
     color:var(--yellow);
     transform:scale(1.12);
   }
-  .nav-cta{display:flex; align-items:center;}
+  .nav-cta{display:flex; align-items:center; gap:12px;}
   .nav-cta .btn{transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;}
   .nav-cta .btn:hover{transform:scale(1.1) translate(-2px,-2px) rotate(-1deg);}
+  .ig-link{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:40px; height:40px; flex-shrink:0;
+    color:var(--cream); border:1px solid var(--dark-line); border-radius:50%;
+    text-decoration:none;
+    transition:color .2s ease, border-color .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
+  .ig-link svg{width:18px; height:18px; display:block;}
+  .ig-link:hover{color:var(--yellow); border-color:var(--yellow); transform:scale(1.1);}
   .nav-toggle{display:none; background:none; border:none; color:var(--cream); font-size:1.6rem; cursor:pointer; padding:4px 8px;}
 
   @media (max-width:860px){
@@ -577,7 +586,9 @@
     header.site-nav{padding-top:env(safe-area-inset-top, 0px);}
     .nav-logo span{display:inline; font-size:0.78rem; letter-spacing:0.06em;}
     .nav-logo img{height:46px; width:46px;}
-    .nav-cta{display:none;}
+    .nav-cta{display:flex;}
+    .nav-cta .btn{display:none;}
+    .ig-link{width:44px; height:44px;}
     .nav-toggle{
       display:flex; align-items:center; justify-content:center;
       width:44px; height:44px; font-size:1.45rem; padding:0; flex-shrink:0;
@@ -648,7 +659,7 @@
     .dart-divider svg{height:36px;}
   }
   @media (hover:none){
-    .btn-primary:hover, .btn-ghost:hover, .btn-dark:hover, .nav-cta .btn:hover{
+    .btn-primary:hover, .btn-ghost:hover, .btn-dark:hover, .nav-cta .btn:hover, .ig-link:hover{
       transform:none; box-shadow:var(--shadow-hard);
     }
     .btn-primary:hover::after{opacity:0;}
@@ -673,9 +684,13 @@
       <a href="#pricing">Pricing</a>
       <a href="#battles">Recent Battles</a>
       <a href="events.html">Events</a>
+      <a href="https://www.instagram.com/atldartclub/" target="_blank" rel="noopener noreferrer">Instagram @atldartclub</a>
       <a href="#book" class="nav-mobile-cta">Request to Book</a>
     </nav>
     <div class="nav-cta">
+      <a class="ig-link" href="https://www.instagram.com/atldartclub/" target="_blank" rel="noopener noreferrer" aria-label="ATL Dart Club on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
       <a href="#book" class="btn btn-primary" style="padding:11px 20px; font-size:0.8rem;">Request to Book</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">☰</button>
@@ -1175,6 +1190,7 @@
           <a href="#book">Request to Book</a>
           <a href="waiver.html">Activity &amp; Photo Waiver</a>
           <a href="mailto:churinteractive@gmail.com">churinteractive@gmail.com</a>
+          <a href="https://www.instagram.com/atldartclub/" target="_blank" rel="noopener noreferrer">Instagram @atldartclub</a>
           <span>Decatur &amp; Atlanta, GA</span>
         </div>
       </div>
