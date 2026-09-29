@@ -465,7 +465,21 @@
     padding:18px;
     transition:transform .25s cubic-bezier(.34,1.56,.64,1), border-color .25s ease;
   }
-  .battle-tile:hover{transform:translateY(-6px) rotate(-1deg); border-color:var(--yellow);}
+  .battle-tile.has-photo{
+    background:#111;
+    padding:0;
+    justify-content:flex-end;
+  }
+  .battle-tile.has-photo img.cover{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  }
+  .battle-tile.has-photo .ph-badge,
+  .battle-tile.has-photo .icon{display:none;}
+  .battle-tile.has-photo .tile-copy{
+    position:relative; z-index:1; padding:18px;
+    background:linear-gradient(transparent, rgba(10,10,10,0.88));
+    width:100%;
+  }
   .battle-tile .ph-badge{
     position:absolute; top:14px; left:14px;
     font-family:'Space Grotesk'; font-weight:700; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase;
@@ -726,7 +740,7 @@
       <div>
         <p class="eyebrow">Atl Dart Club · Nerf As A Service™</p>
         <h1>LET THE<br><span class="accent">FOAM</span><br>FLY!</h1>
-        <p class="hero-sub">Hosted Nerf team days for Atlanta companies — plus birthdays and city pop-ups across Decatur &amp; Atlanta. We bring the gear, set up anywhere, and run the whole event — you just bring the crowd.</p>
+        <p class="hero-sub" id="heroSub">Hosted Nerf team days for Atlanta companies — plus birthdays and city pop-ups across Decatur &amp; Atlanta. We bring the gear, set up anywhere, and run the whole event — you just bring the crowd.</p>
         <div class="hero-ctas">
           <a href="#book" class="btn btn-primary">Request to Book</a>
           <a href="corporate.html" class="btn btn-ghost">Team Building</a>
@@ -1073,11 +1087,11 @@
         <div class="section-head reveal">
           <p class="eyebrow">Proof of battle</p>
           <h2>Recent battles.</h2>
-          <p>A sample of past ADC events. Photo &amp; video gallery coming soon — placeholders below until real event media is added.</p>
+          <p id="battlesIntro">A sample of past ADC events. Photo &amp; video gallery coming soon — placeholders below until real event media is added.</p>
         </div>
         <img class="squad-cutout char reveal reveal-1" src="assets/character-battle.png" alt="Player in goggles aiming a red ATL Dart Club blaster">
       </div>
-      <div class="battles-grid">
+      <div class="battles-grid" id="battlesGrid">
         <div class="battle-tile reveal">
           <span class="ph-badge">Photo coming soon</span>
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fdd02c" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
@@ -1609,6 +1623,52 @@
       formError.classList.add('show');
     }
   });
+</script>
+
+<script>
+  fetch('data/content.json?v=' + Date.now())
+    .then((r) => r.ok ? r.json() : null)
+    .then((data) => {
+      if (!data) return;
+      if (data.copy && data.copy.heroSub) {
+        const el = document.getElementById('heroSub');
+        if (el) el.textContent = data.copy.heroSub;
+      }
+      if (data.copy && data.copy.battlesIntro) {
+        const el = document.getElementById('battlesIntro');
+        if (el) el.textContent = data.copy.battlesIntro;
+      }
+      if (!Array.isArray(data.battles) || !data.battles.length) return;
+      const grid = document.getElementById('battlesGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      data.battles.forEach((b, i) => {
+        const tile = document.createElement('div');
+        tile.className = 'battle-tile in-view' + (b.image ? ' has-photo' : '');
+        if (b.image) {
+          const img = document.createElement('img');
+          img.className = 'cover';
+          img.src = b.image;
+          img.alt = b.title || '';
+          tile.appendChild(img);
+        } else {
+          const badge = document.createElement('span');
+          badge.className = 'ph-badge';
+          badge.textContent = 'Photo coming soon';
+          tile.appendChild(badge);
+        }
+        const copy = document.createElement('div');
+        copy.className = 'tile-copy';
+        const h = document.createElement('h4');
+        h.textContent = b.title || '';
+        const p = document.createElement('p');
+        p.textContent = b.category || '';
+        copy.append(h, p);
+        tile.appendChild(copy);
+        grid.appendChild(tile);
+      });
+    })
+    .catch(() => {});
 </script>
 
 </body>

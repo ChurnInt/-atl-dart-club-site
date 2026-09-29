@@ -643,7 +643,7 @@
     <div class="wrap">
       <p class="eyebrow">Public battles</p>
       <h1>UPCOMING<br><span class="accent">EVENTS</span></h1>
-      <p class="hero-sub">Public pop-up Nerf battles around Decatur &amp; Atlanta — no invite needed, just show up. Planning a private event instead? <a href="index.html#book" style="color:var(--yellow); text-decoration:underline;">Request to book here</a>.</p>
+      <p class="hero-sub" id="eventsHeroSub">Public pop-up Nerf battles around Decatur &amp; Atlanta — no invite needed, just show up. Planning a private event instead? <a href="index.html#book" style="color:var(--yellow); text-decoration:underline;">Request to book here</a>.</p>
     </div>
   </section>
 
@@ -657,7 +657,9 @@
   <section class="section-dark">
     <div class="wrap">
 
-      <div class="events-empty reveal">
+      <div class="events-list" id="eventsList" hidden></div>
+
+      <div class="events-empty reveal" id="eventsEmpty">
         <p class="eyebrow">Public calendar</p>
         <h2>No public pop-ups listed yet.</h2>
         <p>When a city battle is locked in, the date and location will show up here. Until then we still come to you — parks, gyms, offices, and backyards.</p>
@@ -741,6 +743,57 @@
   } else {
     revealEls.forEach(el => el.classList.add('in-view'));
   }
+
+  fetch('data/content.json?v=' + Date.now())
+    .then((r) => r.ok ? r.json() : null)
+    .then((data) => {
+      if (!data) return;
+      if (data.copy && data.copy.eventsHeroSub) {
+        const el = document.getElementById('eventsHeroSub');
+        if (el) el.textContent = data.copy.eventsHeroSub;
+      }
+      const events = Array.isArray(data.events) ? [...data.events].sort((a,b) => (a.date||'').localeCompare(b.date||'')) : [];
+      if (!events.length) return;
+      const list = document.getElementById('eventsList');
+      const empty = document.getElementById('eventsEmpty');
+      if (!list) return;
+      list.hidden = false;
+      if (empty) empty.hidden = true;
+      events.forEach((e) => {
+        const d = e.date ? new Date(e.date + 'T12:00:00') : null;
+        const card = document.createElement('article');
+        card.className = 'event-card reveal in-view';
+        const dateBox = document.createElement('div');
+        dateBox.className = 'event-date';
+        const month = document.createElement('span');
+        month.className = 'month';
+        month.textContent = d ? d.toLocaleString('en-US', { month: 'short' }).toUpperCase() : '';
+        const day = document.createElement('span');
+        day.className = 'day';
+        day.textContent = d ? String(d.getDate()) : '';
+        dateBox.append(month, day);
+        const info = document.createElement('div');
+        info.className = 'event-info';
+        if (e.type) {
+          const tag = document.createElement('span');
+          tag.className = 'example-tag';
+          tag.textContent = e.type;
+          info.appendChild(tag);
+        }
+        const h = document.createElement('h3');
+        h.textContent = e.title || '';
+        const p = document.createElement('p');
+        p.textContent = e.blurb || '';
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        if (e.time) { const s = document.createElement('span'); s.textContent = e.time; meta.appendChild(s); }
+        if (e.location) { const s = document.createElement('span'); s.textContent = e.location; meta.appendChild(s); }
+        info.append(h, p, meta);
+        card.append(dateBox, info);
+        list.appendChild(card);
+      });
+    })
+    .catch(() => {});
 </script>
 
 </body>

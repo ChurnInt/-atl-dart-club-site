@@ -1,0 +1,7 @@
+{
+  "name": "atl-dart-club-site",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  }
+}

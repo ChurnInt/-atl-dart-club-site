@@ -1,0 +1,34 @@
+{
+  "events": [],
+  "battles": [
+    {
+      "id": "battle-mazi",
+      "title": "Mazi's 5th Birthday Battle",
+      "category": "Birthday Nerf Battle Experience",
+      "image": ""
+    },
+    {
+      "id": "battle-otp",
+      "title": "OTP: Star Wars",
+      "category": "Public Nerf Battle Event",
+      "image": ""
+    },
+    {
+      "id": "battle-hies",
+      "title": "Holy Innocents Welcome Back",
+      "category": "Community Partnership",
+      "image": ""
+    },
+    {
+      "id": "battle-adult-swim",
+      "title": "Adult Swim: Nerf Battle",
+      "category": "Public Nerf Battle Event",
+      "image": ""
+    }
+  ],
+  "copy": {
+    "heroSub": "Hosted Nerf team days for Atlanta companies — plus birthdays and city pop-ups across Decatur & Atlanta. We bring the gear, set up anywhere, and run the whole event — you just bring the crowd.",
+    "battlesIntro": "A sample of past ADC events. Photo & video gallery coming soon — placeholders below until real event media is added.",
+    "eventsHeroSub": "Public pop-up Nerf battles around Decatur & Atlanta — no invite needed, just show up. Planning a private event instead? Request to book on the home page."
+  }
+}
