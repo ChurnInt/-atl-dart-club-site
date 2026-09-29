@@ -242,6 +242,7 @@
   .waiver-form .btn{grid-column:1 / -1; justify-self:start; margin-top:6px;}
   .waiver-form .btn-primary{background:var(--yellow); color:var(--black);}
   .form-note{grid-column:1/-1; font-size:0.82rem; color:rgba(245,238,220,0.78); margin:0;}
+  [hidden]{display:none !important;}
   .form-error{
     display:none; grid-column:1/-1; color:var(--yellow);
     font-family:'Space Grotesk'; font-weight:600; font-size:0.88rem;
@@ -428,9 +429,8 @@
         <p>I have had a chance to read this document, ask questions, and choose not to participate. I am signing it freely.</p>
       </article>
 
-      <form class="waiver-form reveal" id="waiverForm">
+      <form class="waiver-form reveal" id="waiverForm" novalidate>
         <div class="form-success" id="formSuccess">Waiver received. You’re cleared for play — we’ll keep this on file for your event. If you listed anyone under 18, they are covered under your signature.</div>
-        <p class="form-error" id="formError" role="alert"></p>
         <input type="hidden" name="_subject" value="New ATL Dart Club activity & photo waiver">
         <input type="hidden" name="form_name" value="Activity & Photo Waiver (Georgia)">
         <input type="hidden" name="waiver_version" value="GA-2026-09">
@@ -548,6 +548,7 @@
           <input type="date" id="signedDate" name="date_signed" required readonly>
         </div>
         <p class="form-note">Submitting this form emails ATL Dart Club and records your waiver. Keep a copy of the email confirmation if Formspree sends you one.</p>
+        <p class="form-error" id="formError" role="alert"></p>
         <button type="submit" class="btn btn-primary">Submit Waiver</button>
       </form>
     </div>
@@ -757,6 +758,13 @@
   const signature = document.getElementById('signature');
   const adultPlay = document.getElementById('adultPlay');
 
+  function showFormError(msg, el){
+    formError.textContent = msg;
+    formError.classList.add('show');
+    formError.scrollIntoView({behavior:'smooth', block:'center'});
+    if (el && typeof el.focus === 'function') el.focus({preventScroll: true});
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     formError.classList.remove('show');
@@ -764,33 +772,34 @@
     syncMinors();
 
     if (yearsOld(dob.value) < 18) {
-      formError.textContent = 'The signer must be 18 or older. A parent or guardian has to complete this form.';
-      formError.classList.add('show');
-      dob.focus();
+      showFormError('The signer must be 18 or older. A parent or guardian has to complete this form.', dob);
       return;
     }
     const nameNorm = legalName.value.trim().replace(/\s+/g, ' ').toLowerCase();
     const sigNorm = signature.value.trim().replace(/\s+/g, ' ').toLowerCase();
     if (!sigNorm || sigNorm !== nameNorm) {
-      formError.textContent = 'Your signature must match your full legal name.';
-      formError.classList.add('show');
-      signature.focus();
+      showFormError('Your signature must match your full legal name.', signature);
       return;
     }
     const minorRows = minorsWrap.querySelectorAll('.minor-row');
     if (adultPlay.value.indexOf('only signing') !== -1 && !minorRows.length) {
-      formError.textContent = 'Add at least one participant under 18, or choose that you are participating too.';
-      formError.classList.add('show');
+      showFormError('Add at least one participant under 18, or choose that you are participating too.', adultPlay);
       return;
     }
     if (eventDate.value && eventDate.value < localISODate()) {
-      formError.textContent = 'Event date can’t be in the past.';
-      formError.classList.add('show');
-      eventDate.focus();
+      showFormError('Event date can’t be in the past.', eventDate);
       return;
     }
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-    if (form.querySelector('[name="_gotcha"]')?.value) return;
+    if (!form.checkValidity()) {
+      const first = form.querySelector(':invalid');
+      const checkboxMsg = 'Check the required agreements, then submit again.';
+      showFormError(first && first.type === 'checkbox' ? checkboxMsg : (first?.validationMessage || 'Please complete the required fields.'), first);
+      return;
+    }
+    if (form.querySelector('[name="_gotcha"]')?.value) {
+      showFormError('Could not send. Refresh the page and try again.');
+      return;
+    }
 
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
@@ -810,8 +819,7 @@
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Submit Waiver';
-      formError.textContent = 'Could not send. Check your connection and try again.';
-      formError.classList.add('show');
+      showFormError('Could not send. Check your connection and try again.');
     }
   });
 </script>
