@@ -1,5 +1,16 @@
 {
-  "events": [],
+  "events": [
+    {
+      "id": "evt-leftovers-2026",
+      "title": "PULL UP & PLAY: Leftovers Edition",
+      "date": "2026-11-28",
+      "time": "1:30 PM – 3:30 PM",
+      "location": "East Lake Park, Atlanta",
+      "type": "Public Pop-Up",
+      "blurb": "Gel blasters for teens and adults, 1:30–2:30 PM, then a family-friendly Nerf battle, 2:30–3:30 PM. Wear sneakers, bring water, and follow ADC safety rules. Eye protection is required for gel blasters.",
+      "link": "https://www.eventbrite.com/e/pull-up-play-leftovers-edition-atl-dart-club-nerf-gel-blaster-battle-tickets-2005484974545"
+    }
+  ],
   "battles": [
     {
       "id": "battle-mazi",
@@ -29,6 +40,6 @@
   "copy": {
     "heroSub": "Hosted Nerf team days for Atlanta companies — plus birthdays and city pop-ups across Decatur & Atlanta. We bring the gear, set up anywhere, and run the whole event — you just bring the crowd.",
     "battlesIntro": "A sample of past ADC events. Photo & video gallery coming soon — placeholders below until real event media is added.",
-    "eventsHeroSub": "Public pop-up Nerf battles around Decatur & Atlanta — no invite needed, just show up. Planning a private event instead? Request to book on the home page."
+    "eventsHeroSub": "Public pop-up Nerf battles around Decatur & Atlanta. Ticketed battles include a link. Planning a private event instead? Request to book on the home page."
   }
 }

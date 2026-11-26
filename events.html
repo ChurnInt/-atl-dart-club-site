@@ -790,6 +790,20 @@
         if (e.location) { const s = document.createElement('span'); s.textContent = e.location; meta.appendChild(s); }
         info.append(h, p, meta);
         card.append(dateBox, info);
+        let ticketHref = '';
+        try {
+          const u = new URL(e.link || '', window.location.href);
+          if (u.protocol === 'https:') ticketHref = u.href;
+        } catch (err) {}
+        if (ticketHref) {
+          const a = document.createElement('a');
+          a.className = 'btn btn-primary';
+          a.href = ticketHref;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = 'Get Tickets';
+          card.appendChild(a);
+        }
         list.appendChild(card);
       });
     })
